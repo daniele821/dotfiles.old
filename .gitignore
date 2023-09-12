@@ -1,0 +1,8 @@
+# necessary to allow this directory to remain the same even while doing checkouts
+/userconfig
+
+# list files not to be tracked here
+# how to specify them:
+# - by extension (*.<extension>)
+# - specific file/directory (/backup/<path/to/file/or/directory>)
+*.swp
