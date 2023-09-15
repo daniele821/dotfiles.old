@@ -30,7 +30,10 @@ USER_CONFIG_FILES=(
 
 # (1.5) all initializations files to execute if specific option is parsed
 INIT_FILES_TO_EXECUTE=(
-"${DIRS[3]}/main.sh"
+"${DIRS[3]}/apt-packages.sh"
+"${DIRS[3]}/git-repos.sh"
+"${DIRS[3]}/optional-init.sh"
+"${DIRS[3]}/colors.sh"
 )
 
 # (1.6) flags  
@@ -208,6 +211,7 @@ function git_commit(){
             error_type "1"; echo "commit name not valid!"; 
             exit 1;
         fi;
+        git pull;
         git add -A && git commit -m "${line}";
         ask_user "Do you want to push" && git push -u origin $(cat ${USER_CONFIG_FILES[0]})
     fi;

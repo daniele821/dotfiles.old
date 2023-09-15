@@ -1,0 +1,15 @@
+# files
+/home/daniele/.vimrc
+/home/daniele/.bash_aliases
+/home/daniele/.gitconfig
+/home/daniele/.ssh/config
+/home/daniele/.local/share/themes/Dracula.zip
+/home/daniele/.local/share/themes/pop-dark-fixed.zip
+/home/daniele/.local/share/gedit/styles/dracula.xml
+/home/daniele/.config/Code/User/settings.json
+/home/daniele/.config/Code/User/keybindings.json
+
+# directories
+/home/daniele/.local/share/backgrounds
+/home/daniele/.config/autostart
+/home/daniele/.personal/data/backups

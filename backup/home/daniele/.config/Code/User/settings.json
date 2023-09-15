@@ -1,0 +1,10 @@
+{
+    "telemetry.telemetryLevel": "off",
+    "window.titleBarStyle": "custom",
+    "editor.minimap.enabled": false,
+    "workbench.startupEditor": "none",
+    "files.autoSave": "afterDelay",
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "window.zoomLevel": 2,
+}
