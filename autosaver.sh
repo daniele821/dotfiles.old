@@ -85,25 +85,25 @@ function ask_user(){
 # (2.5) check git user and email are inserted
 function check_git_user(){
     # name
-    if [[ -z "$(git config user.name)" ]]; then
+    if [[ -z "$(git -C "${SCRIPT_DIR}" config user.name)" ]]; then
         error_type "2" && color "0" "git user.name not configurated.\nInsert git name: "
         read -r name;
         if [[ -z "${name}" ]]; then
             error_type "1" && color "0" "name not valid!\n";
             return 1;
         fi;
-        git config user.name "${name}"
+        git -C "${SCRIPT_DIR}" config user.name "${name}"
     fi;
 
     # email
-    if [[ -z "$(git config user.email)" ]]; then
+    if [[ -z "$(git -C "${SCRIPT_DIR}" config user.email)" ]]; then
         error_type "2" && color "0" "git user.email not configurated.\nInsert git email: "
         read -r email;
         if [[ -z "${email}" ]]; then
             error_type "1" && color "0" "email not valid!\n";
             return 1;
         fi;
-        git config user.email "${email}"
+        git -C "${SCRIPT_DIR}" config user.email "${email}"
     fi;
 }
 
@@ -211,9 +211,9 @@ function git_commit(){
             error_type "1"; echo "commit name not valid!"; 
             exit 1;
         fi;
-        git pull;
-        git add -A && git commit -m "${line}";
-        ask_user "Do you want to push" && git push -u origin $(cat ${USER_CONFIG_FILES[0]})
+        git -C "${SCRIPT_DIR}" pull;
+        git -C "${SCRIPT_DIR}" add -A && git -C "${SCRIPT_DIR}" commit -m "${line}";
+        ask_user "Do you want to push" && git -C "${SCRIPT_DIR}" push -u origin $(cat ${USER_CONFIG_FILES[0]})
     fi;
 }
 
