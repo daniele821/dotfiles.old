@@ -2,6 +2,7 @@
 
 # initializations
 eval "$(zoxide init bash)"
+eval "$(starship init bash)"
 source ~/.personal/repos/other/complete-alias/complete_alias
 
 # functions

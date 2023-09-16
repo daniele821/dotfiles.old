@@ -28,3 +28,8 @@ if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNI
     cd ${DIR} || exit 1;
     ./install.sh
 fi;
+
+# install starship
+if ask_if_execute "Do you want to install starship ?";
+    then curl -sS https://starship.rs/install.sh | sh
+fi;
