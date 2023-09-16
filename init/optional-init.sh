@@ -22,14 +22,24 @@ if ask_if_execute "Do you want to add ssh keys?";
 fi;
 
 # install gnome dracula theme
-if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNING: CREATE AN EMPTY PROFILE BEFORE] ?";
+if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNING: CREATE AN EMPTY PROFILE BEFORE]?";
     then DIR="$(mktemp -d)";
     git clone https://github.com/dracula/gnome-terminal "${DIR}";
     cd ${DIR} || exit 1;
     ./install.sh
 fi;
 
+# install rust
+if ! rustup --version &>/dev/null && ask_if_execute "Do you want to install rustup [NECESSARY FOR 'lsd']?";
+    then curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+fi;
+
 # install starship
-if ask_if_execute "Do you want to install starship ?";
+if ask_if_execute "Do you really want to install/upgrade starship?";
     then curl -sS https://starship.rs/install.sh | sh
+fi;
+
+# install lsd
+if rustup --version &>/dev/null && ! lsd --version &>/dev/null && ask_if_execute "Do you want to install lsd?";
+    then cargo install lsd;
 fi;

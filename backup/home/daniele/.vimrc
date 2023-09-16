@@ -1,5 +1,4 @@
-"line (relativenumber + number is a little hack to show the number of the current line instead of zero)
-set relativenumber
+"line
 set number 
 set scrolloff=5
 
