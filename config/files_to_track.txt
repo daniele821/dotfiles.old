@@ -6,6 +6,7 @@
 /home/daniele/.local/share/themes/Dracula.zip
 /home/daniele/.local/share/themes/pop-dark-fixed.zip
 /home/daniele/.local/share/gedit/styles/dracula.xml
+/home/daniele/.local/share/fonts/Inconsolata/Inconsolata.zip
 /home/daniele/.config/Code/User/settings.json
 /home/daniele/.config/Code/User/keybindings.json
 
