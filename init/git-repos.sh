@@ -10,7 +10,7 @@ CODE_EXTENSIONS=(
 # create directory structure
 mkdir -p ~/.personal/{repos/{mine,unibo,other},data}
 
-# init vscode & firefox
+# init vscode
 code && sleep 10 && killall code;
 firefox && sleep 10 && killall firefox-bin;
 for extension in "${CODE_EXTENSIONS[@]}"; 
