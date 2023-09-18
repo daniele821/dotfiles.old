@@ -25,7 +25,7 @@ fi;
 if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNING: CREATE AN EMPTY PROFILE BEFORE]?";
     then DIR="$(mktemp -d)";
     git clone https://github.com/dracula/gnome-terminal "${DIR}";
-    cd ${DIR} || exit 1;
+    cd "${DIR}" || exit 1;
     ./install.sh
 fi;
 

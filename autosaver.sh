@@ -6,9 +6,9 @@
 # N.B: do not modify variables, the only operation allowed is to add variables inside arrays!
 
 # (1.1) script path infos
-SCRIPT_PWD="$(realpath ${BASH_SOURCE[0]})";
-SCRIPT_DIR="$(dirname ${SCRIPT_PWD})";
-SCRIPT_NAME="$(basename ${SCRIPT_PWD})"
+SCRIPT_PWD="$(realpath "${BASH_SOURCE[0]}")";
+SCRIPT_DIR="$(dirname "${SCRIPT_PWD}")";
+SCRIPT_NAME="$(basename "${SCRIPT_PWD}")"
 
 # (1.2) all used/needed/tracked directories
 DIRS=(
@@ -61,7 +61,7 @@ function error_type(){
 # (2.3) check branch is the whitelisted one
 function check_branch(){
     CURRENT_BRANCH="$(git -C "${SCRIPT_DIR}" rev-parse --abbrev-ref HEAD)"
-    WHITELISTED_BRANCH="$(cat ${USER_CONFIG_FILES[0]} 2>/dev/null)"
+    WHITELISTED_BRANCH="$(cat "${USER_CONFIG_FILES[0]}" 2>/dev/null)"
     if [[ "${CURRENT_BRANCH}" != "${WHITELISTED_BRANCH}" ]]; then 
         error_type "1" && color "0" "current branch \"" && color "1;36" "${CURRENT_BRANCH}" && color "0" "\" is not whitelisted. Try again on the branch \"" && color "1;36" "${WHITELISTED_BRANCH}" && color "0" "\"!\n"
         exit 1;
@@ -128,7 +128,7 @@ function read_files(){
 
 # (2.7) copy file into a destination and create directories if necessary. $1: src, $:2 dst
 function copy(){
-    mkdir -p $(dirname ${2})
+    mkdir -p "$(dirname "${2}")"
     cp "${1}" "${2}"
 }
 
@@ -144,7 +144,7 @@ function save_file(){
     elif [[ -f "${FILE}" ]] && ! [[ -f "${BACKUP}" ]];
         then color "1;36" "${FILE}\n"; 
         [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "backup" && color "" " file is missing!\n\n";
-        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" ${BACKUP};
+        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" "${BACKUP}";
     elif ! diff -q "${FILE}" "${BACKUP}" &>/dev/null;
         then color "1;36" "${FILE}\n"; 
         if [[ "${SHOW_DIFF}" == "y" ]]; then
@@ -152,7 +152,7 @@ function save_file(){
             [[ "${SAVE}" == "r" ]] || diff --color "${BACKUP}" "${FILE}";
             echo;
         fi;
-        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mupdate\e[m backup file" && copy "${FILE}" ${BACKUP};
+        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mupdate\e[m backup file" && copy "${FILE}" "${BACKUP}";
         [[ "${SAVE}" == "r" ]] && ask_user "Do you want to \e[1;33mupdate\e[m original file" && copy "${BACKUP}" "${FILE}";
     fi;
 }
@@ -185,14 +185,14 @@ ACTION OPTIONS:
 function edit_config_files(){
     EDITOR="/usr/bin/vim"
     for file in "${CONFIG_FILES[@]}" "${USER_CONFIG_FILES[@]}"; do 
-        ask_user "Do you want to edit \e[1;36m$(basename ${file})" && "${EDITOR}" "${file}";
+        ask_user "Do you want to edit \e[1;36m$(basename "${file}")" && "${EDITOR}" "${file}";
     done
 }
 
 # (3.3) run all initialization scripts
 function run_init_scripts(){
     for script in "${INIT_FILES_TO_EXECUTE[@]}"; do
-        ask_user "Do you want to run \e[1;36m$(basename ${script})" && { "${script}" || { error_type 1 && echo "initialization failed" && exit 1; }; };
+        ask_user "Do you want to run \e[1;36m$(basename "${script}")" && { "${script}" || { error_type 1 && echo "initialization failed" && exit 1; }; };
     done;
 }
 
@@ -213,7 +213,7 @@ function git_commit(){
         fi;
         git -C "${SCRIPT_DIR}" pull;
         git -C "${SCRIPT_DIR}" add -A && git -C "${SCRIPT_DIR}" commit -m "${line}";
-        ask_user "Do you want to push" && git -C "${SCRIPT_DIR}" push -u origin $(cat ${USER_CONFIG_FILES[0]})
+        ask_user "Do you want to push" && git -C "${SCRIPT_DIR}" push -u origin "$(cat "${USER_CONFIG_FILES[0]}")"
     fi;
 }
 
@@ -226,7 +226,7 @@ while ! check_git_user; do sleep 0; done
 
 # (4.2) create user config files
 for file in "${USER_CONFIG_FILES[@]}"; do
-    mkdir -p "$(dirname ${file})" && touch "${file}";
+    mkdir -p "$(dirname "${file}")" && touch "${file}";
 done;
 
 # (4.3) check branch is the whitelisted one
@@ -244,7 +244,7 @@ done;
 
 # (4.6) create all initializers script files and make them executable
 for file in "${INIT_FILES_TO_EXECUTE[@]}"; do
-    touch "${file}" && chmod +x ${file};
+    touch "${file}" && chmod +x "${file}";
 done;
 
 # (4.7) getopt
@@ -277,6 +277,9 @@ while getopts ':cdefhirs' OPTION; do
         ;;
     s)
         SAVE="s"
+        ;;
+    *)
+        error_type 1 && echo -e "invalid option \e[1;36m-${OPTARG}\e[m" && exit 1
         ;;
     esac;
 done;

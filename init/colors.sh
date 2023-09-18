@@ -26,7 +26,7 @@ APP_CSS_FILE='/usr/share/gnome-shell/extensions/pop-cosmic@system76.com/dark.css
 APP_OLD_ENTRY="$(head -2 ${APP_CSS_FILE} | tail -1)"
 APP_NEW_ENTRY="background-color: rgba($RED,$GREEN,$BLUE,$DOCK_APP_OPACITY);"
 TOP_CSS_FILE="${HOME}/.local/share/themes/pop-dark-fixed/gnome-shell/gnome-shell.css"
-TOP_OLD_ENTRY="$(head -1439 ${TOP_CSS_FILE} | tail -1)"
+TOP_OLD_ENTRY="$(head -1439 "${TOP_CSS_FILE}" | tail -1)"
 TOP_NEW_ENTRY="  background-color: rgba($RED,$GREEN,$BLUE,$DOCK_APP_OPACITY);"
 sudo sed -i "s/${APP_OLD_ENTRY}/${APP_NEW_ENTRY}/" "${APP_CSS_FILE}" || exit 1
 sudo sed -i "s/${TOP_OLD_ENTRY}/${TOP_NEW_ENTRY}/" "${TOP_CSS_FILE}" || exit 1
