@@ -15,9 +15,9 @@ function ask_if_execute(){
 }
 
 # add ssh keys for github 
+# shellcheck disable=SC2086 # cannot quote name variable, because command wouldn't work (idk why!)
 if ask_if_execute "Do you want to add ssh keys?";
     then for name in ${SSH_KEYS};
-        # do not add quotations, otherwise the command won't work!
         do ssh-keygen -t ed25519 -f ~/.ssh/id_${name}; 
     done;
 fi;
