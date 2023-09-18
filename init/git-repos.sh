@@ -12,7 +12,6 @@ mkdir -p ~/.personal/{repos/{mine,unibo,other},data}
 
 # init vscode
 code && sleep 10 && killall code;
-firefox && sleep 10 && killall firefox-bin;
 for extension in "${CODE_EXTENSIONS[@]}"; 
     do code --install-extension "${extension}";
 done;
