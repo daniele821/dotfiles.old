@@ -21,7 +21,6 @@ function check_zoxide(){
             else zi "$@"; 
         fi;
     fi;
-    clear_zoxide 1
 }
 
 # aliases
