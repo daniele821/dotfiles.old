@@ -1,7 +1,21 @@
 #!/bin/bash
 
+# MODIFIABLE
+CODE_EXTENSIONS=(
+    "Gruntfuggly.todo-tree"
+    "mhutchie.git-graph"
+    "timonwong.shellcheck"
+)
+
 # create directory structure
 mkdir -p ~/.personal/{repos/{mine,unibo,other},data}
+
+# init vscode & firefox
+code && sleep 10 && killall code;
+firefox && sleep 10 && killall firefox-bin;
+for extension in "${CODE_EXTENSIONS[@]}"; 
+    do code --install-extension "${extension}";
+done;
 
 # restore backup
 "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -dfr
