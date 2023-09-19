@@ -17,7 +17,7 @@ for extension in "${CODE_EXTENSIONS[@]}";
 done;
 
 # restore backup
-"$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -dfr
+"$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -fb
 
 # operations on backup
 cd ~/.local/share/themes || exit 1
