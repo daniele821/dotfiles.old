@@ -3,6 +3,7 @@
 # initializations
 eval "$(zoxide init bash)"
 eval "$(starship init bash)"
+export STARSHIP_LOG=error
 source ~/.personal/repos/other/complete-alias/complete_alias
 
 # functions
