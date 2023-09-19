@@ -6,9 +6,9 @@
 # N.B: do not modify variables, the only operation allowed is to add variables inside arrays!
 
 # (1.1) script path infos
-SCRIPT_PWD="$(realpath ${BASH_SOURCE[0]})";
-SCRIPT_DIR="$(dirname ${SCRIPT_PWD})";
-SCRIPT_NAME="$(basename ${SCRIPT_PWD})"
+SCRIPT_PWD="$(realpath "${BASH_SOURCE[0]}")";
+SCRIPT_DIR="$(dirname "${SCRIPT_PWD}")";
+SCRIPT_NAME="$(basename "${SCRIPT_PWD}")"
 
 # (1.2) all used/needed/tracked directories
 DIRS=(
@@ -26,6 +26,7 @@ CONFIG_FILES=(
 # (1.4) all user configurations files
 USER_CONFIG_FILES=(
 "${DIRS[2]}/user_branch.txt"
+"${DIRS[2]}/file_editor.txt"
 )
 
 # (1.5) all initializations files to execute if specific option is parsed
@@ -33,10 +34,12 @@ INIT_FILES_TO_EXECUTE=(
 "${DIRS[3]}/main.sh"
 )
 
-# (1.6) flags  
+# (1.6) flags
+ON_BRANCH="n"   # n / y
 FORCE_YES="n"   # n / y 
 SHOW_DIFF="n"   # n / y 
-SAVE=""         #   / r / s
+SAVE=""         #   / b / s
+ACTION=""       #   / c / e / i / r
 
 ### -------------------------------------------------------------------------------- ###
 
@@ -58,14 +61,20 @@ function error_type(){
 # (2.3) check branch is the whitelisted one
 function check_branch(){
     CURRENT_BRANCH="$(git -C "${SCRIPT_DIR}" rev-parse --abbrev-ref HEAD)"
-    WHITELISTED_BRANCH="$(cat ${USER_CONFIG_FILES[0]} 2>/dev/null)"
-    if [[ "${CURRENT_BRANCH}" != "${WHITELISTED_BRANCH}" ]]; then 
-        error_type "1" && color "0" "current branch \"" && color "1;36" "${CURRENT_BRANCH}" && color "0" "\" is not whitelisted. Try again on the branch \"" && color "1;36" "${WHITELISTED_BRANCH}" && color "0" "\"!\n"
-        exit 1;
+    WHITELISTED_BRANCH="$(cat "${USER_CONFIG_FILES[0]}" 2>/dev/null)"
+    if [[ "${CURRENT_BRANCH}" == "${WHITELISTED_BRANCH}" ]]; then 
+        ON_BRANCH="y"
     fi;
 }
 
-# (2.4) ask user to do action. $1: msg
+# (2.4) kill script if branch is not the whitelisted one (MUST BE RUNNED AFTER check_branch)
+function check_branch_and_kill(){
+    if [[ "${ON_BRANCH}" != "y" ]]; then
+        error_type "1" && color "0" "current branch \"" && color "1;36" "${CURRENT_BRANCH}" && color "0" "\" is not whitelisted. Try again on the branch \"" && color "1;36" "${WHITELISTED_BRANCH}" && color "0" "\"!\n" && exit 1
+    fi;
+}
+
+# (2.5) ask user to do action. $1: msg
 function ask_user(){
     echo -e "${1} \c";
     color "1;33" "[Y/n]? "
@@ -79,7 +88,7 @@ function ask_user(){
     fi;
 }
 
-# (2.5) check git user and email are inserted
+# (2.6) check git user and email are inserted
 function check_git_user(){
     # name
     if [[ -z "$(git -C "${SCRIPT_DIR}" config user.name)" ]]; then
@@ -104,7 +113,7 @@ function check_git_user(){
     fi;
 }
 
-# (2.6) read lines from file
+# (2.7) read lines from file
 function read_files(){
     while read -r file || [[ -n "${file}" ]]; do
         if ! git -C "${SCRIPT_DIR}" check-ignore -q "${DIRS[0]}/${file}" ; then
@@ -123,13 +132,13 @@ function read_files(){
     done < "${CONFIG_FILES[0]}" | sort -u
 }
 
-# (2.7) copy file into a destination and create directories if necessary. $1: src, $:2 dst
+# (2.8) copy file into a destination and create directories if necessary. $1: src, $:2 dst
 function copy(){
-    mkdir -p $(dirname ${2})
+    mkdir -p "$(dirname "${2}")"
     cp "${1}" "${2}"
 }
 
-# (2.8) save files using all options parsed. $1: file actual full path 
+# (2.9) save file using all options parsed. $1: file actual full path 
 function save_file(){
     FILE="${1}"
     BACKUP="${DIRS[0]}${1}"
@@ -137,20 +146,35 @@ function save_file(){
         then color "1;36" "${FILE}\n"; 
         [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "original" && color "" " file is missing!\n\n"
         [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mremove\e[m backup file" && rm "${BACKUP}";
-        [[ "${SAVE}" == "r" ]] && ask_user "Do you want to \e[1;33mcreate\e[m original file" && copy "${BACKUP}" "${FILE}";
+        [[ "${SAVE}" == "b" ]] && ask_user "Do you want to \e[1;33mcreate\e[m original file" && copy "${BACKUP}" "${FILE}";
     elif [[ -f "${FILE}" ]] && ! [[ -f "${BACKUP}" ]];
         then color "1;36" "${FILE}\n"; 
         [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "backup" && color "" " file is missing!\n\n";
-        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" ${BACKUP};
+        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" "${BACKUP}";
     elif ! diff -q "${FILE}" "${BACKUP}" &>/dev/null;
         then color "1;36" "${FILE}\n"; 
         if [[ "${SHOW_DIFF}" == "y" ]]; then
-            [[ "${SAVE}" == "r" ]] && diff --color "${FILE}" "${BACKUP}";
-            [[ "${SAVE}" == "r" ]] || diff --color "${BACKUP}" "${FILE}";
+            [[ "${SAVE}" == "b" ]] && diff --color "${FILE}" "${BACKUP}";
+            [[ "${SAVE}" == "b" ]] || diff --color "${BACKUP}" "${FILE}";
             echo;
         fi;
-        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mupdate\e[m backup file" && copy "${FILE}" ${BACKUP};
-        [[ "${SAVE}" == "r" ]] && ask_user "Do you want to \e[1;33mupdate\e[m original file" && copy "${BACKUP}" "${FILE}";
+        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mupdate\e[m backup file" && copy "${FILE}" "${BACKUP}";
+        [[ "${SAVE}" == "b" ]] && ask_user "Do you want to \e[1;33mupdate\e[m original file" && copy "${BACKUP}" "${FILE}";
+    fi;
+}
+
+# (2.10) save all files
+function save_files(){
+    read_files | while read -r file; do
+        save_file "${file}";
+    done;
+}
+
+# (2.13) store action parsed from args. $1: action letter
+function store_action(){
+    if [[ -z "${ACTION}" ]]; 
+        then ACTION="${1}"; 
+        else error_type 1 && echo "too many action flags!" && exit 1; 
     fi;
 }
 
@@ -162,34 +186,48 @@ function save_file(){
 function help_msg(){
     echo "\
 USAGE:
-    ./${SCRIPT_NAME} [flag options] [action option]
+    ./${SCRIPT_NAME} [options]
         
 FLAG OPTIONS:
+    -b      restore backup into filesystem [OVERWRITES: -s]
     -d      show diffs
     -f      force yes everytime a conferm is asked
-    -s      save files from filesystem into this repo [OVERWRITES: -r]
-    -r      restore files from this repo into filesystem [OVERWRITES: -s]
+    -s      save files from filesystem into this repo [OVERWRITES: -b]
 
 ACTION OPTIONS:
     -c      commit all changes              [flags: -d, -f]
     -e      edit all config files           [flags: -f]
     -h      help                            
     -i      run initialization scripts      [flags: -f]
+    -r      remove all directories          [flags: -f]
     "
 }
 
 # (3.2) edit all config files
 function edit_config_files(){
-    EDITOR="/usr/bin/vim"
-    for file in "${CONFIG_FILES[@]}" "${USER_CONFIG_FILES[@]}"; do 
-        ask_user "Do you want to edit \e[1;36m$(basename ${file})" && "${EDITOR}" "${file}";
+    if [[ -f "${USER_CONFIG_FILES[1]}" ]]; then
+        EDITOR="$(cat "${USER_CONFIG_FILES[1]}")";
+    fi;
+    if ! "${EDITOR}" --version &>/dev/null; then
+        EDITOR="/usr/bin/vim";
+    fi;
+    if ! "${EDITOR}" --version &>/dev/null; then
+        EDITOR="/usr/bin/nano";
+    fi;
+    for file in "${USER_CONFIG_FILES[@]}"; do 
+        ask_user "Do you want to edit \e[1;36m$(basename "${file}")" && mkdir -p "$(dirname "${file}")" && touch "${file}" && "${EDITOR}" "${file}";
     done
+    if [[ "${ON_BRANCH}" == "y" ]]; 
+        then for file in "${CONFIG_FILES[@]}"; do 
+            ask_user "Do you want to edit \e[1;36m$(basename "${file}")" && mkdir -p "$(dirname "${file}")" && touch "${file}" && "${EDITOR}" "${file}";
+        done;
+    fi;
 }
 
 # (3.3) run all initialization scripts
 function run_init_scripts(){
     for script in "${INIT_FILES_TO_EXECUTE[@]}"; do
-        ask_user "Do you want to run \e[1;36m$(basename ${script})" && { "${script}" || { error_type 1 && echo "initialization failed" && exit 1; }; };
+        ask_user "Do you want to run \e[1;36m$(basename "${script}")" && { "${script}" || { error_type 1 && echo "initialization failed" && exit 1; }; };
     done;
 }
 
@@ -210,53 +248,55 @@ function git_commit(){
         fi;
         git -C "${SCRIPT_DIR}" pull;
         git -C "${SCRIPT_DIR}" add -A && git -C "${SCRIPT_DIR}" commit -m "${line}";
-        ask_user "Do you want to push" && git -C "${SCRIPT_DIR}" push -u origin $(cat ${USER_CONFIG_FILES[0]})
+        ask_user "Do you want to push" && git -C "${SCRIPT_DIR}" push -u origin "$(cat "${USER_CONFIG_FILES[0]}")"
     fi;
+}
+
+# (3.5) remove all directories
+function remove_dirs(){
+    LEN="$(( ${#SCRIPT_DIR} + 1 ))"
+    for dir in "${DIRS[@]}"; do
+        if [[ -d "${dir}" ]]; then
+            ask_user "Do you want to remove \e[1;36m${dir:${LEN}}\e[m" && rm -rf "${dir}";
+        fi;
+    done
 }
 
 ### -------------------------------------------------------------------------------- ###
 
 # (4) EXECUTION
 
-# (4.1) check git user info are configured (otherwise commit will fail!)
-while ! check_git_user; do sleep 0; done
-
-# (4.2) create user config files
-for file in "${USER_CONFIG_FILES[@]}"; do
-    mkdir -p "$(dirname ${file})" && touch "${file}";
-done;
-
-# (4.3) check branch is the whitelisted one
+# (4.1) check branch is the whitelisted one
 check_branch
 
-# (4.4) create all directories
-for dir in "${DIRS[@]}"; do
-    mkdir -p "${dir}";
-done
+# (4.2) initializations and checks
+if [[ "${ON_BRANCH}" == "y" ]]; then  
+    
+    for dir in "${DIRS[@]}"; do
+        mkdir -p "${dir}";
+    done
+    for file in "${CONFIG_FILES[@]}" "${USER_CONFIG_FILES[@]}"; do
+        touch "${file}";
+    done;
+    for file in "${INIT_FILES_TO_EXECUTE[@]}"; do
+        touch "${file}" && chmod +x "${file}";
+    done;
+fi;
 
-# (4.5) create all config files
-for file in "${CONFIG_FILES[@]}"; do
-    touch "${file}";
-done;
-
-# (4.6) create all initializers script files and make them executable
-for file in "${INIT_FILES_TO_EXECUTE[@]}"; do
-    touch "${file}" && chmod +x ${file};
-done;
-
-# (4.7) getopt
-while getopts ':cdefhirs' OPTION; do
+# (4.3) getopt
+while getopts ':bcdefhirs' OPTION; do
     case "${OPTION}" in
+    b)
+        SAVE="b"
+        ;;
     c)
-        git_commit;
-        exit 0;
+        store_action "c";
         ;;
     d)
         SHOW_DIFF="y";
         ;;
     e)
-        edit_config_files;
-        exit 0;
+        store_action "e";
         ;;
     f)
         FORCE_YES="y";
@@ -266,20 +306,44 @@ while getopts ':cdefhirs' OPTION; do
         exit 0;
         ;;
     i)
-        run_init_scripts;
-        exit 0;
+        store_action "i";
         ;;
     r)
-        SAVE="r"
+        store_action "r";
         ;;
     s)
         SAVE="s"
         ;;
+    *)
+        error_type 1 && echo -e "invalid option \e[1;36m-${OPTARG}\e[m" && exit 1
+        ;;
     esac;
 done;
 
-# (4.8) save files and exit
-read_files | while read -r file; do
-    save_file "${file}";
-done;
-exit 0;
+# (4.4) execute based on action flag
+case "${ACTION}" in
+    c)
+        check_branch_and_kill;
+        while ! check_git_user; do sleep 0; done;
+        git_commit;
+        exit 0;
+        ;;
+    e)
+        edit_config_files;
+        exit 0;
+        ;;
+    i)
+        check_branch_and_kill;
+        run_init_scripts;
+        exit 0;
+        ;;
+    r)
+        remove_dirs;
+        exit 0;
+        ;;
+    *)
+        check_branch_and_kill;
+        save_files;
+        exit 0;
+        ;;
+    esac;
