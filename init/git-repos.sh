@@ -1,7 +1,17 @@
 #!/bin/bash
 
+# MODIFIABLE
+CODE_EXTENSIONS=(
+    "mhutchie.git-graph"
+)
+
 # create directory structure
 mkdir -p ~/.personal/{repos/{mine,unibo,other},data}
+
+# init vscode
+for extension in "${CODE_EXTENSIONS[@]}"; do
+    code --install-extension "${extension}"
+done
 
 # restore backup
 "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -fb
