@@ -5,18 +5,18 @@ DOCK_APP_COLOR_DEFAULT="1A1E24"
 DOCK_APP_OPACITY_DEFAULT="1"
 
 # get color and opacity from user
-echo -e "write hex color [default: ${DOCK_APP_COLOR_DEFAULT}] or leave empty to restore default: \c";
+echo -e "write hex color [default: ${DOCK_APP_COLOR_DEFAULT}] or leave empty to restore default: \c"
 read -r DOCK_APP_COLOR
-echo -e "write decimal number from 0 to 1 [default: ${DOCK_APP_OPACITY_DEFAULT}] or leave empty to restore default: \c";
+echo -e "write decimal number from 0 to 1 [default: ${DOCK_APP_OPACITY_DEFAULT}] or leave empty to restore default: \c"
 read -r DOCK_APP_OPACITY
 
 # apply default if no input was given
-if [[ -z "$DOCK_APP_COLOR" ]]; 
-    then DOCK_APP_COLOR="${DOCK_APP_COLOR_DEFAULT}";
-fi;
-if [[ -z "$DOCK_APP_OPACITY" ]]; 
-    then DOCK_APP_OPACITY="${DOCK_APP_OPACITY_DEFAULT}";
-fi;
+if [[ -z "$DOCK_APP_COLOR" ]]; then
+    DOCK_APP_COLOR="${DOCK_APP_COLOR_DEFAULT}"
+fi
+if [[ -z "$DOCK_APP_OPACITY" ]]; then
+    DOCK_APP_OPACITY="${DOCK_APP_OPACITY_DEFAULT}"
+fi
 
 # color application menu
 RED="$((16#${DOCK_APP_COLOR:0:2}))"
@@ -36,4 +36,4 @@ gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity "${DOCK
 gsettings set org.gnome.shell.extensions.dash-to-dock background-color "#${DOCK_APP_COLOR}"
 
 # suggestions to the user
-echo "enter 'r' after clicking alt+f2 for changes to take effect!";
+echo "enter 'r' after clicking alt+f2 for changes to take effect!"

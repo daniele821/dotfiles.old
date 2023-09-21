@@ -15,5 +15,5 @@ cd ~/.local/share/fonts/Inconsolata || exit 1
 unzip Inconsolata.zip && rm ./*.md ./*.txt
 
 # clone repositories in other dir
-cd ~/.personal/repos/other || exit 1;
+cd ~/.personal/repos/other || exit 1
 git clone https://github.com/cykerway/complete-alias
