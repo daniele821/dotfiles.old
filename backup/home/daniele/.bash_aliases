@@ -7,21 +7,22 @@ export STARSHIP_LOG=error
 source ~/.personal/repos/other/complete-alias/complete_alias
 
 # functions
-function clear_zoxide(){
-    zoxide query -ls | while read -r score path;
-        do if [[ $score -le "$1" ]] || [[ "$1" -eq "-1" ]] ;
-            then zoxide remove "${path}";
-            echo -e "\e[1;33m${path} \e[1;31m(${score})\e[m"
-        fi;
-    done;
+function clear_zoxide() {
+	zoxide query -ls | while read -r score path; do
+		if [[ $score -le "$1" ]] || [[ "$1" -eq "-1" ]]; then
+			zoxide remove "${path}"
+			echo -e "\e[1;33m${path} \e[1;31m(${score})\e[m"
+		fi
+	done
 }
-function check_zoxide(){
-    if ! cd "$@" &>/dev/null; then
-        if [[ "$(zoxide query -l "$@" | wc -l)" -le "1" ]];
-            then z "$@"; 
-            else zi "$@"; 
-        fi;
-    fi;
+function check_zoxide() {
+	if ! cd "$@" &>/dev/null; then
+		if [[ "$(zoxide query -l "$@" | wc -l)" -le "1" ]]; then
+			z "$@"
+		else
+			zi "$@"
+		fi
+	fi
 }
 
 # aliases
