@@ -44,7 +44,7 @@ if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNI
 fi
 
 # install rust
-if ! /home/daniele/.cargo/bin/rustup --version &>/dev/null && ask_if_execute "Do you want to install rustup [NECESSARY FOR 'lsd']?"; then
+if ! "$HOME/.cargo/bin/rustup" --version &>/dev/null && ask_if_execute "Do you want to install rustup [NECESSARY FOR 'lsd']?"; then
     curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 fi
 
@@ -54,6 +54,6 @@ if ask_if_execute "Do you really want to install/upgrade starship?"; then
 fi
 
 # install lsd
-if /home/daniele/.cargo/bin/rustup --version &>/dev/null && ! lsd --version &>/dev/null && ask_if_execute "Do you want to install lsd?"; then
-    cargo install lsd
+if "$HOME/.cargo/bin/rustup" --version &>/dev/null && ! lsd --version &>/dev/null && ask_if_execute "Do you want to install lsd?"; then
+    "$HOME/.cargo/bin/cargo" install lsd
 fi
