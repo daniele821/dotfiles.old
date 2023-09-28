@@ -7,5 +7,7 @@
     "editor.fontFamily": "Fira Code, Inconsolata Nerd Font",
     "editor.fontLigatures": true,
     "window.zoomLevel": 2,
+    "editor.inlayHints.enabled": "off",
+    "editor.pasteAs.enabled": false,
 }
 
