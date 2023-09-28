@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # initializations
+source ~/.personal/repos/other/complete-alias/complete_alias
 eval "$(zoxide init bash)"
 eval "$(starship init bash)"
 export STARSHIP_LOG=error
-source ~/.personal/repos/other/complete-alias/complete_alias
+export FZF_DEFAULT_OPTS='--height=25% --border=rounded'
 
 # functions
 function clear_zoxide() {
@@ -14,6 +15,12 @@ function clear_zoxide() {
 			echo -e "\e[1;33m${path} \e[1;31m(${score})\e[m"
 		fi
 	done
+}
+function clear_zoxide_interactive(){
+    zoxide query -ls | fzf -m | while read -r score path; do
+        zoxide remove "${path}";
+		echo -e "\e[1;33m${path} \e[1;31m(${score})\e[m"
+    done;
 }
 function check_zoxide() {
 	if ! cd "$@" &>/dev/null; then
@@ -35,6 +42,7 @@ alias cat='batcat'
 alias sudo='sudo '
 alias cd='check_zoxide'
 alias zc='clear_zoxide'
+alias zd='clear_zoxide_interactive'
 
 # complete all aliases
 complete -F _complete_alias "${!BASH_ALIASES[@]}"
