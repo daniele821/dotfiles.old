@@ -35,6 +35,11 @@ fi
 rm "${TMP_BUFFER}"
 unset TMP_BUFFER
 
+# set vim as default editor
+if ask_if_execute "Do you want to change default editor?"; then
+    sudo update-alternatives --config editor
+fi
+
 # install gnome dracula theme
 if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNING: CREATE AN EMPTY PROFILE BEFORE]?"; then
     DIR="$(mktemp -d)"
