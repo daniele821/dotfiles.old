@@ -43,6 +43,7 @@ alias sudo='sudo '
 alias cd='check_zoxide'
 alias zc='clear_zoxide'
 alias zd='clear_zoxide_interactive'
+alias autosaver='~/.personal/repos/mine/dotfiles/autosaver.sh'
 
 # complete all aliases
 complete -F _complete_alias "${!BASH_ALIASES[@]}"
