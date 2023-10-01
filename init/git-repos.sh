@@ -3,6 +3,17 @@
 # MODIFIABLE
 CODE_EXTENSIONS=(
     "mhutchie.git-graph"
+    "foxundermoon.shell-format"
+    "timonwong.shellcheck"
+    "redhat.java"
+    "VisualStudioExptTeam.intellicode-api-usage-examples"
+    "VisualStudioExptTeam.vscodeintellicode"
+    "vscjava.vscode-gradle"
+    "vscjava.vscode-java-debug"
+    "vscjava.vscode-java-dependency"
+    "vscjava.vscode-java-pack"
+    "vscjava.vscode-java-test"
+    "vscjava.vscode-maven"
 )
 
 # create directory structure
