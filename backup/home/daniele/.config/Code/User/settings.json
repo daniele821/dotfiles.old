@@ -2,9 +2,10 @@
     // global settings
     "telemetry.telemetryLevel": "off",
     "window.titleBarStyle": "custom",
-    // vim settings
-    "vim.hlsearch": true,
-    "vim.foldfix": true,
+    // neovim settings
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
     // others
     "editor.minimap.enabled": false,
     "workbench.startupEditor": "none",

@@ -14,6 +14,7 @@ CODE_EXTENSIONS=(
     "vscjava.vscode-java-pack"
     "vscjava.vscode-java-test"
     "vscjava.vscode-maven"
+    "asvetliakov.vscode-neovim"
 )
 
 # create directory structure

@@ -14,6 +14,6 @@
     },
     {
         "key": "ctrl+k ctrl+v",
-        "command": "toggleVim"
-    }
+        "command": "vscode-neovim.toggle"
+    },
 ]
