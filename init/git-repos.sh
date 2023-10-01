@@ -3,7 +3,6 @@
 # MODIFIABLE
 CODE_EXTENSIONS=(
     "mhutchie.git-graph"
-    "vscodevim.vim"
 )
 
 # create directory structure

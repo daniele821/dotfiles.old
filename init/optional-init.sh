@@ -41,9 +41,9 @@ if ask_if_execute "Do you want to change default editor?"; then
 fi
 
 # configurate ibus settings (in particolar, manually remove painful and useless shortcuts)
-if ask_if_execute "Do you want to configurate ibus (to remove useless shortcuts)?" ; then
-    ibus-setup;
-fi;
+if ask_if_execute "Do you want to configurate ibus (to remove useless shortcuts)?"; then
+    ibus-setup
+fi
 
 # install gnome dracula theme
 if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNING: CREATE AN EMPTY PROFILE BEFORE]?"; then
