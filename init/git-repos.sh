@@ -1,10 +1,21 @@
 #!/bin/bash
 
+# MODIFIABLE
+CODE_EXTENSIONS=(
+    "mhutchie.git-graph"
+    "vscodevim.vim"
+)
+
 # create directory structure
 mkdir -p ~/.personal/{repos/{mine,unibo,other},data}
 
 # restore backup
 "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -fb
+
+# install vscode extension
+for ext in "${CODE_EXTENSIONS[@]}"; do
+    code --install-extension "${ext}"
+done
 
 # operations on backup
 cd ~/.local/share/themes || exit 1
