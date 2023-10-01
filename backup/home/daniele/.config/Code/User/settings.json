@@ -1,6 +1,12 @@
 {
+    // global settings
     "telemetry.telemetryLevel": "off",
     "window.titleBarStyle": "custom",
+    // vim settings
+    "vim.hlsearch": true,
+    "vim.whichwrap": "b,s,>,<",
+    "vim.foldfix": true,
+    // others
     "editor.minimap.enabled": false,
     "workbench.startupEditor": "none",
     "files.autoSave": "afterDelay",

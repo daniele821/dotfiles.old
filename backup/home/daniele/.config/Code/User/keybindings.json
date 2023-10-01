@@ -11,5 +11,9 @@
     {
         "key": "ctrl+shift+[Semicolon]",
         "command": "workbench.action.terminal.killAll"
+    },
+    {
+        "key": "ctrl+k ctrl+v",
+        "command": "toggleVim"
     }
 ]
