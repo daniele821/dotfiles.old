@@ -5,6 +5,7 @@ CODE_EXTENSIONS=(
     "mhutchie.git-graph"
     "foxundermoon.shell-format"
     "timonwong.shellcheck"
+    "ms-vscode.cpptools"
     "redhat.java"
     "VisualStudioExptTeam.intellicode-api-usage-examples"
     "VisualStudioExptTeam.vscodeintellicode"
