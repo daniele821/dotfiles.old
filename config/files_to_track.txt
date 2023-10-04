@@ -1,7 +1,6 @@
 # ------------------------- FILES ------------------------- 
 
 # various
-/home/daniele/.vimrc
 /home/daniele/.bash_aliases
 /home/daniele/.gitconfig
 /home/daniele/.ssh/config

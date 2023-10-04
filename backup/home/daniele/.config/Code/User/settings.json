@@ -1,7 +1,6 @@
 {
     // global settings
     "telemetry.telemetryLevel": "off",
-    "window.titleBarStyle": "custom",
     // neovim settings
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
@@ -17,4 +16,9 @@
     "git.autofetch": "all",
     "diffEditor.hideUnchangedRegions.enabled": true,
     "window.zoomLevel": 2,
+    "window.customMenuBarAltFocus": false,
+    "window.experimental.nativeContextMenuLocation": false,
+    "window.enableMenuBarMnemonics": false,
+    "window.titleBarStyle": "custom",
+    "window.menuBarVisibility": "compact",
 }
