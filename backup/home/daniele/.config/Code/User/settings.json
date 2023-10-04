@@ -24,4 +24,5 @@
     "workbench.editor.pinnedTabsOnSeparateRow": true,
     "git.autofetch": "all",
     "diffEditor.hideUnchangedRegions.enabled": true,
+    "breadcrumbs.enabled": false,
 }
