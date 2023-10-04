@@ -53,6 +53,13 @@ if ask_if_execute "Do you want to install dracula theme on gnome-terminal [WARNI
     ./install.sh
 fi
 
+# install java 17
+if ask_if_execute "Do you want to install openjdk-17?"; then
+    while ! sudo apt install openjdk-17-*; do
+        echo -e "\e[1;31mopenjdk-17 installation failed\e[m"
+    done
+fi
+
 # install rust
 if ! "$HOME/.cargo/bin/rustup" --version &>/dev/null && ask_if_execute "Do you want to install rustup [NECESSARY FOR 'lsd']?"; then
     curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh

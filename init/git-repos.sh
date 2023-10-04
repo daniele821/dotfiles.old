@@ -2,6 +2,8 @@
 
 # MODIFIABLE
 CODE_EXTENSIONS=(
+    "tamasfe.even-better-toml"
+    "rust-lang.rust-analyzer"
     "mhutchie.git-graph"
     "foxundermoon.shell-format"
     "timonwong.shellcheck"
