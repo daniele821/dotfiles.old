@@ -23,4 +23,5 @@
     "window.menuBarVisibility": "compact",
     "window.commandCenter": false,
     "workbench.layoutControl.enabled": false,
+    "editor.lineNumbers": "relative"
 }
