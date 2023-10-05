@@ -21,8 +21,9 @@
     "editor.lineNumbers": "relative",
     "workbench.startupEditor": "none",
     "workbench.layoutControl.enabled": false,
-    "workbench.editor.tabSizing": "fixed",
     "git.autofetch": "all",
     "diffEditor.hideUnchangedRegions.enabled": true,
     "breadcrumbs.enabled": false,
+    "workbench.editor.wrapTabs": true,
+    "workbench.editor.pinnedTabsOnSeparateRow": true,
 }
