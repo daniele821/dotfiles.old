@@ -44,6 +44,7 @@ alias cd='check_zoxide'
 alias zc='clear_zoxide'
 alias zd='clear_zoxide_interactive'
 alias autosaver='~/.personal/repos/mine/dotfiles/autosaver.sh'
+unalias l
 
 # complete all aliases
 complete -F _complete_alias "${!BASH_ALIASES[@]}"
