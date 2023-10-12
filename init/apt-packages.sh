@@ -16,7 +16,7 @@ done
 while ! sudo apt update -y; do
     color "1;31" "update failed"
 done
-while ! sudo apt install tree ripgrep fzf zoxide bat neovim unclutter-xfixes xsel neofetch htop -y; do
+while ! sudo apt install tree ripgrep fzf zoxide bat vim neovim unclutter-xfixes xsel neofetch htop -y; do
     color "1;31" "installation of utilities failed!"
 done
 while ! sudo apt install deluge code fonts-firacode gnome-tweaks gnome-shell-extension-manager -y; do
