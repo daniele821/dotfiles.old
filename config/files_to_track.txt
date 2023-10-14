@@ -3,6 +3,7 @@
 # various
 /home/daniele/.bash_aliases
 /home/daniele/.gitconfig
+/home/daniele/.vimrc
 /home/daniele/.ssh/config
 /home/daniele/.config/starship.toml
 /home/daniele/.config/nvim/init.vim
@@ -18,8 +19,6 @@
 # vscode
 /home/daniele/.config/Code/User/settings.json
 /home/daniele/.config/Code/User/keybindings.json
-
-
 
 # ---------------------- DIRECTORIES ---------------------- 
 
