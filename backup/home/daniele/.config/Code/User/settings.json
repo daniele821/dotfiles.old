@@ -26,4 +26,6 @@
     "breadcrumbs.enabled": false,
     "workbench.editor.wrapTabs": true,
     "workbench.editor.pinnedTabsOnSeparateRow": true,
+    "vscode-neovim.mouseSelectionDebounceTime": 0,
+    "vscode-neovim.neovimInitVimPaths.linux": "~/.personal/data/backups/vscode/neovim/init.vim",
 }

@@ -1,0 +1,11 @@
+set number
+set relativenumber
+set scrolloff=5
+set expandtab
+set tabstop=4
+set shiftwidth=4
+syntax enable
+set smartindent
+set incsearch
+set hlsearch
+set clipboard+=unnamedplus
