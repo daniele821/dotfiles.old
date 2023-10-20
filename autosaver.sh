@@ -197,18 +197,18 @@ USAGE:
     ./${SCRIPT_NAME} [options]
         
 FLAG OPTIONS:
-    -a      allow dangerous operations 
     -b      restore backup into filesystem [OVERWRITES: -s]
     -d      show diffs
-    -f      force yes everytime a conferm is asked
+    -f      force allow dangerous operations
     -s      save files from filesystem into this repo [OVERWRITES: -b]
+    -y      try to automatically answer yes to all interactions
 
 ACTION OPTIONS:
-    -c      commit all changes              [flags: -d, -f]
-    -e      edit all config files           [flags: -f]
+    -c      commit all changes              [flags: -d, -y]
+    -e      edit all config files           [flags: -y]
     -h      help                            
-    -i      run initialization scripts      [flags: -f]
-    -r      remove all directories          [flags: -f]
+    -i      run initialization scripts      [flags: -y]
+    -r      remove all directories          [flags: -y]
     "
 }
 
@@ -295,11 +295,8 @@ if [[ "${ON_BRANCH}" == "y" ]]; then
 fi
 
 # (4.3) getopt
-while getopts ':abcdefhirs' OPTION; do
+while getopts ':bcdefhirsy' OPTION; do
     case "${OPTION}" in
-    a)
-        ALLOW_DNG="y"
-        ;;
     b)
         SAVE="b"
         ;;
@@ -313,7 +310,7 @@ while getopts ':abcdefhirs' OPTION; do
         store_action "e"
         ;;
     f)
-        FORCE_YES="y"
+        ALLOW_DNG="y"
         ;;
     h)
         help_msg
@@ -327,6 +324,9 @@ while getopts ':abcdefhirs' OPTION; do
         ;;
     s)
         SAVE="s"
+        ;;
+    y)
+        FORCE_YES="y"
         ;;
     *)
         error_type 1 && echo -e "invalid option \e[1;36m-${OPTARG}\e[m" && exit 1
