@@ -197,18 +197,18 @@ USAGE:
     ./${SCRIPT_NAME} [options]
         
 FLAG OPTIONS:
-    -b      restore backup into filesystem [OVERWRITES: -s]
     -d      show diffs
     -f      force allow dangerous operations
-    -s      save files from filesystem into this repo [OVERWRITES: -b]
     -y      try to automatically answer yes to all interactions
 
 ACTION OPTIONS:
-    -c      commit all changes              [flags: -d, -y]
-    -e      edit all config files           [flags: -y]
-    -h      help                            
-    -i      run initialization scripts      [flags: -y]
-    -r      remove all directories          [flags: -y]
+    -b      restore backup into filesystem      [flags: -d, -f, -y]
+    -c      commit all changes                  [flags: -d, -y]
+    -e      edit all config files               [flags: -y]
+    -h      help                           
+    -i      run initialization scripts          [flags: -y]
+    -r      remove all directories              [flags: -y]
+    -s      save files from filesystem          [flags: -d, -y]
     "
 }
 
