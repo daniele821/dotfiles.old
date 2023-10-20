@@ -1,27 +1,27 @@
 # ------------------------- FILES ------------------------- 
 
 # various
-/home/daniele/.bash_aliases
-/home/daniele/.gitconfig
-/home/daniele/.vimrc
-/home/daniele/.ssh/config
-/home/daniele/.config/starship.toml
+.bash_aliases
+.gitconfig
+.vimrc
+.ssh/config
+.config/starship.toml
 
 # themes
-/home/daniele/.local/share/themes/Dracula.zip
-/home/daniele/.local/share/themes/pop-dark-fixed.zip
-/home/daniele/.local/share/gedit/styles/dracula.xml
+.local/share/themes/Dracula.zip
+.local/share/themes/pop-dark-fixed.zip
+.local/share/gedit/styles/dracula.xml
 
 # fonts
-/home/daniele/.local/share/fonts/Inconsolata/Inconsolata.zip
+.local/share/fonts/Inconsolata/Inconsolata.zip
 
 # vscode
-/home/daniele/.config/Code/User/settings.json
-/home/daniele/.config/Code/User/keybindings.json
+.config/Code/User/settings.json
+.config/Code/User/keybindings.json
 
 # ---------------------- DIRECTORIES ---------------------- 
 
 # various
-/home/daniele/.local/share/backgrounds
-/home/daniele/.config/autostart
-/home/daniele/.personal/data/backups
+.local/share/backgrounds
+.config/autostart
+.personal/data/backups

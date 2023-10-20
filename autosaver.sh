@@ -121,6 +121,7 @@ function check_git_user() {
 # (2.7) read lines from file
 function read_files() {
     while read -r file || [[ -n "${file}" ]]; do
+        [[ -n "${file}" && "${file:0:1}" != "#" ]] && file="${HOME}/${file}"
         if ! git -C "${SCRIPT_DIR}" check-ignore -q "${DIRS[0]}/${file}"; then
             if [[ -f "${file}" ]] || [[ -f "${DIRS[0]}${file}" ]]; then
                 echo "${file}"
