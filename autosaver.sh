@@ -38,8 +38,8 @@ INIT_FILES_TO_EXECUTE=(
 ON_BRANCH="n" # n / y
 FORCE_YES="n" # n / y
 SHOW_DIFF="n" # n / y
-SAVE=""       #   / b / s
-ACTION=""     #   / c / e / i / r
+ALLOW_DNG="n" # n / y
+ACTION=""     #   / b / c / e / i / r / s
 
 ### -------------------------------------------------------------------------------- ###
 
@@ -147,21 +147,22 @@ function save_file() {
     if ! [[ -f "${FILE}" ]] && [[ -f "${BACKUP}" ]]; then
         color "1;36" "${FILE}\n"
         [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "original" && color "" " file is missing!\n\n"
-        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mremove\e[m backup file" && rm "${BACKUP}"
-        [[ "${SAVE}" == "b" ]] && ask_user "Do you want to \e[1;33mcreate\e[m original file" && copy "${BACKUP}" "${FILE}"
+        [[ "${ACTION}" == "s" ]] && ask_user "Do you want to \e[1;33mremove\e[m backup file" && rm "${BACKUP}"
+        [[ "${ACTION}" == "b" ]] && ask_user "Do you want to \e[1;33mcreate\e[m original file" && copy "${BACKUP}" "${FILE}"
     elif [[ -f "${FILE}" ]] && ! [[ -f "${BACKUP}" ]]; then
         color "1;36" "${FILE}\n"
         [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "backup" && color "" " file is missing!\n\n"
-        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" "${BACKUP}"
+        [[ "${ACTION}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" "${BACKUP}"
+        [[ "${ACTION}" == "b" && "${ALLOW_DNG}" == "y" ]] && ask_user "Do you want to \e[1;33mremove\e[m original file [DANGEROUS]" && rm "${FILE}" 
     elif ! diff -q "${FILE}" "${BACKUP}" &>/dev/null; then
         color "1;36" "${FILE}\n"
         if [[ "${SHOW_DIFF}" == "y" ]]; then
-            [[ "${SAVE}" == "b" ]] && diff --color "${FILE}" "${BACKUP}"
-            [[ "${SAVE}" == "b" ]] || diff --color "${BACKUP}" "${FILE}"
+            [[ "${ACTION}" == "b" ]] && diff --color "${FILE}" "${BACKUP}"
+            [[ "${ACTION}" == "b" ]] || diff --color "${BACKUP}" "${FILE}"
             echo
         fi
-        [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mupdate\e[m backup file" && copy "${FILE}" "${BACKUP}"
-        [[ "${SAVE}" == "b" ]] && ask_user "Do you want to \e[1;33mupdate\e[m original file" && copy "${BACKUP}" "${FILE}"
+        [[ "${ACTION}" == "s" ]] && ask_user "Do you want to \e[1;33mupdate\e[m backup file" && copy "${FILE}" "${BACKUP}"
+        [[ "${ACTION}" == "b" ]] && ask_user "Do you want to \e[1;33mupdate\e[m original file" && copy "${BACKUP}" "${FILE}"
     fi
 }
 
@@ -192,17 +193,18 @@ USAGE:
     ./${SCRIPT_NAME} [options]
         
 FLAG OPTIONS:
-    -b      restore backup into filesystem [OVERWRITES: -s]
     -d      show diffs
-    -f      force yes everytime a conferm is asked
-    -s      save files from filesystem into this repo [OVERWRITES: -b]
+    -f      force allow dangerous operations
+    -y      try to automatically answer yes to all interactions
 
 ACTION OPTIONS:
-    -c      commit all changes              [flags: -d, -f]
-    -e      edit all config files           [flags: -f]
-    -h      help                            
-    -i      run initialization scripts      [flags: -f]
-    -r      remove all directories          [flags: -f]
+    -b      restore backup into filesystem      [flags: -d, -f, -y]
+    -c      commit all changes                  [flags: -d, -y]
+    -e      edit all config files               [flags: -y]
+    -h      help                           
+    -i      run initialization scripts          [flags: -y]
+    -r      remove all directories              [flags: -y]
+    -s      save files from filesystem          [flags: -d, -y]
     "
 }
 
@@ -289,10 +291,10 @@ if [[ "${ON_BRANCH}" == "y" ]]; then
 fi
 
 # (4.3) getopt
-while getopts ':bcdefhirs' OPTION; do
+while getopts ':bcdefhirsy' OPTION; do
     case "${OPTION}" in
     b)
-        SAVE="b"
+        store_action "b"
         ;;
     c)
         store_action "c"
@@ -304,7 +306,7 @@ while getopts ':bcdefhirs' OPTION; do
         store_action "e"
         ;;
     f)
-        FORCE_YES="y"
+        ALLOW_DNG="y"
         ;;
     h)
         help_msg
@@ -317,7 +319,10 @@ while getopts ':bcdefhirs' OPTION; do
         store_action "r"
         ;;
     s)
-        SAVE="s"
+        store_action "s"
+        ;;
+    y)
+        FORCE_YES="y"
         ;;
     *)
         error_type 1 && echo -e "invalid option \e[1;36m-${OPTARG}\e[m" && exit 1
