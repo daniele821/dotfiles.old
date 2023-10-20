@@ -7,4 +7,5 @@ set shiftwidth=4
 syntax enable
 set smartindent
 set incsearch
+set nohlsearch
 set clipboard+=unnamedplus
