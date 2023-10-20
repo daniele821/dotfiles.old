@@ -41,6 +41,7 @@ INIT_FILES_TO_EXECUTE=(
 ON_BRANCH="n" # n / y
 FORCE_YES="n" # n / y
 SHOW_DIFF="n" # n / y
+ALLOW_DNG="n" # n / y
 SAVE=""       #   / b / s
 ACTION=""     #   / c / e / i / r
 
@@ -156,6 +157,7 @@ function save_file() {
         color "1;36" "${FILE}\n"
         [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "backup" && color "" " file is missing!\n\n"
         [[ "${SAVE}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" "${BACKUP}"
+        [[ "${SAVE}" == "b" && "${ALLOW_DNG}" == "y" ]] && ask_user "Do you want to \e[1;33mremove\e[m original file [DANGEROUS]" && rm "${FILE}" 
     elif ! diff -q "${FILE}" "${BACKUP}" &>/dev/null; then
         color "1;36" "${FILE}\n"
         if [[ "${SHOW_DIFF}" == "y" ]]; then
@@ -195,6 +197,7 @@ USAGE:
     ./${SCRIPT_NAME} [options]
         
 FLAG OPTIONS:
+    -a      allow dangerous operations 
     -b      restore backup into filesystem [OVERWRITES: -s]
     -d      show diffs
     -f      force yes everytime a conferm is asked
@@ -292,8 +295,11 @@ if [[ "${ON_BRANCH}" == "y" ]]; then
 fi
 
 # (4.3) getopt
-while getopts ':bcdefhirs' OPTION; do
+while getopts ':abcdefhirs' OPTION; do
     case "${OPTION}" in
+    a)
+        ALLOW_DNG="y"
+        ;;
     b)
         SAVE="b"
         ;;
