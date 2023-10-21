@@ -120,13 +120,13 @@ function read_files() {
     while read -r file || [[ -n "${file}" ]]; do
         [[ -n "${file}" && "${file:0:1}" != "#" ]] && file="${HOME}/${file}"
         if ! git -C "${SCRIPT_DIR}" check-ignore -q "${DIRS[0]}/${file}"; then
-            if [[ -f "${file}" ]] || [[ -f "${DIRS[0]}${file}" ]]; then
+            if [[ -f "${file}" || -f "${DIRS[0]}${file}" ]]; then
                 echo "${file}"
             fi
             if [[ -d "${file}" ]]; then
                 find "${file}" -type f
             fi
-            if [[ -d "${DIRS[0]}${file}" ]]; then
+            if [[ -n "${file}" && -d "${DIRS[0]}${file}" ]]; then
                 find "${DIRS[0]}${file}" -type f | while read -r tmp; do
                     echo "${tmp:${#DIRS[0]}}"
                 done
