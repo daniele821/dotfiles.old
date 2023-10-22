@@ -9,6 +9,8 @@
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
+    "vscode-neovim.mouseSelectionDebounceTime": 0,
+    "vscode-neovim.neovimInitVimPaths.linux": "~/.personal/data/backups/vscode/neovim/init.vim",
     // others
     "files.autoSave": "afterDelay",
     "window.zoomLevel": 2,
@@ -23,10 +25,5 @@
     "workbench.layoutControl.enabled": false,
     "git.autofetch": "all",
     "diffEditor.hideUnchangedRegions.enabled": true,
-    "breadcrumbs.enabled": false,
-    "workbench.editor.wrapTabs": true,
-    "workbench.editor.pinnedTabsOnSeparateRow": true,
-    "vscode-neovim.mouseSelectionDebounceTime": 0,
-    "vscode-neovim.neovimInitVimPaths.linux": "~/.personal/data/backups/vscode/neovim/init.vim",
     "diffEditor.ignoreTrimWhitespace": false,
 }
