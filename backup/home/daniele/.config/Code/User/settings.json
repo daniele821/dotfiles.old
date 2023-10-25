@@ -18,11 +18,7 @@
     "editor.pasteAs.enabled": false,
     "editor.lineNumbers": "relative",
     "workbench.startupEditor": "none",
-    "git.autofetch": "all",
     "diffEditor.hideUnchangedRegions.enabled": true,
     "diffEditor.ignoreTrimWhitespace": false,
-    "workbench.statusBar.visible": false,
-    "workbench.activityBar.visible": false,
-    "workbench.editor.showTabs": false,
     "window.titleBarStyle": "custom",
 }
