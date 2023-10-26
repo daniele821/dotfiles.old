@@ -2,7 +2,7 @@
     "telemetry.telemetryLevel": "off",
     "window.customMenuBarAltFocus": false,
     "window.enableMenuBarMnemonics": false,
-    "window.menuBarVisibility": "hidden",
+    "window.menuBarVisibility": "compact",
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
