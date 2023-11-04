@@ -333,7 +333,12 @@ while getopts ':bcdefhirsy' OPTION; do
     esac
 done
 
-# (4.4) execute based on action flag
+# (4.4) if no action ---> set all actions flag to ' ' (hacky way to force program to show diff if no action are passed)
+if [[ -z "${ALL_ACTION}" ]]; then
+    ALL_ACTION=" "
+fi
+
+# (4.5) execute based on action flag
 for ((index = 0; index < ${#ALL_ACTION}; index++)); do
     ACTION=${ALL_ACTION:$index:1}
     case "${ACTION}" in
@@ -359,5 +364,5 @@ for ((index = 0; index < ${#ALL_ACTION}; index++)); do
     esac
 done
 
-# (4.5) exit successfully after everything is done!
+# (4.6) exit successfully after everything is done!
 exit 0
