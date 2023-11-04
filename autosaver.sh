@@ -155,7 +155,7 @@ function save_file() {
         color "1;36" "${FILE}\n"
         [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "backup" && color "" " file is missing!\n\n"
         [[ "${ACTION}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" "${BACKUP}"
-        [[ "${ACTION}" == "b" && "${ALLOW_DNG}" == "y" ]] && ask_user "Do you want to \e[1;33mremove\e[m original file [DANGEROUS]" && rm "${FILE}" 
+        [[ "${ACTION}" == "b" && "${ALLOW_DNG}" == "y" ]] && ask_user "Do you want to \e[1;33mremove\e[m original file [DANGEROUS]" && rm "${FILE}"
     elif ! diff -q "${FILE}" "${BACKUP}" &>/dev/null; then
         color "1;36" "${FILE}\n"
         if [[ "${SHOW_DIFF}" == "y" ]]; then
@@ -177,8 +177,8 @@ function save_files() {
 
 # (2.13) store action parsed from args. $1: action letter
 function store_action() {
-    if ! [[ "${ALL_ACTION}" =~ "${1}" ]]; then
-        ALL_ACTION+="${1}";
+    if ! [[ "${ALL_ACTION}" == *"${1}"* ]]; then
+        ALL_ACTION+="${1}"
     fi
 }
 
@@ -331,30 +331,30 @@ while getopts ':bcdefhirsy' OPTION; do
 done
 
 # (4.4) execute based on action flag
-for ((index=0; index<${#ALL_ACTION}; index++)); do
-    ACTION=${ALL_ACTION:$index:1};
+for ((index = 0; index < ${#ALL_ACTION}; index++)); do
+    ACTION=${ALL_ACTION:$index:1}
     case "${ACTION}" in
-        c)
-            check_branch_and_kill
-            while ! check_git_user; do sleep 0; done
-            git_commit
-            ;;
-        e)
-            edit_config_files
-            ;;
-        i)
-            check_branch_and_kill
-            run_init_scripts
-            ;;
-        r)
-            remove_dirs
-            ;;
-        *)
-            check_branch_and_kill
-            save_files
-            ;;
-    esac;
-done;
+    c)
+        check_branch_and_kill
+        while ! check_git_user; do sleep 0; done
+        git_commit
+        ;;
+    e)
+        edit_config_files
+        ;;
+    i)
+        check_branch_and_kill
+        run_init_scripts
+        ;;
+    r)
+        remove_dirs
+        ;;
+    *)
+        check_branch_and_kill
+        save_files
+        ;;
+    esac
+done
 
 # (4.5) exit successfully after everything is done!
-exit 0;
+exit 0
