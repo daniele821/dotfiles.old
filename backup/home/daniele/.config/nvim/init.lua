@@ -21,7 +21,7 @@ vim.cmd [[
 
 
 -- keybindings config
-vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', {})   -- exit terminal mode with
+vim.keymap.set('t', '<ESC>', '<C-\\><C-n>', {})      -- exit terminal mode with
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<NOP>', {}) -- disable leader key in normal mode
 
 
@@ -48,7 +48,6 @@ require('lazy').setup {
         lazy = false,
         priority = 1000,
         config = function()
-            local style = 'darker'
             vim.cmd.colorscheme 'onedark'
         end
     },
@@ -151,6 +150,9 @@ vim.defer_fn(function()
         incremental_selection = {
             enable = true,
         },
+        modules = {},
+        sync_install = false,
+        ignore_install = {},
     }
 end, 0)
 
@@ -179,12 +181,13 @@ local on_attach = function(_, bufnr)
     nmap('<leader>D', require('telescope.builtin').lsp_type_definitions)
     nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols)
     nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols)
+    nmap('<A-i>', vim.lsp.buf.format)
     nmap('K', vim.lsp.buf.hover)
     nmap('<C-k>', vim.lsp.buf.signature_help)
     nmap('gD', vim.lsp.buf.declaration)
     nmap('<leader>wa', vim.lsp.buf.add_workspace_folder)
     nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder)
-     nmap('<leader>wl', function()
+    nmap('<leader>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end)
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -228,6 +231,7 @@ local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
+---@diagnostic disable-next-line: missing-fields
 cmp.setup {
     snippet = {
         expand = function(args)
