@@ -8,6 +8,7 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.breakindent = true
 vim.opt.signcolumn = 'yes'
 vim.opt.showmode = false
+vim.opt.scrolloff = 5
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -78,7 +79,6 @@ return require('packer').startup(function(use)
         require('packer').sync()
     end
 end)
-
 
 
 
