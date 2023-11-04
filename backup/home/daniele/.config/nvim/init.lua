@@ -19,7 +19,13 @@ vim.cmd [[
 
 
 -- keybindings config
-vim.keymap.set('t','<ESC>','<C-\\><C-n>',{})    -- exit terminal mode with <ESC>
+vim.keymap.set('t','<ESC>','<C-\\><C-n>',{})                -- exit terminal mode with 
+vim.keymap.set('n','<Leader>','<NOP>',{})                   -- disable leader key in normal mode
+local builtin = require('telescope.builtin')    
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})   -- telescope find files
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})    -- telescope grep files
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})      -- telescope find buffers
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})    -- telescope neovim help
 
 
 
@@ -62,6 +68,13 @@ return require('packer').startup(function(use)
     -- comments
     use 'numToStr/Comment.nvim'
     require('Comment').setup()
+
+    -- telescope
+    use {
+        'nvim-telescope/telescope.nvim',
+        branch = '0.1.x', 
+        requires = { 'nvim-lua/plenary.nvim' }
+    }
 
     -- tree-sitter
     use {
