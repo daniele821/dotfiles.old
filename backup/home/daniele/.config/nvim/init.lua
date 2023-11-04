@@ -11,7 +11,14 @@ vim.opt.showmode = false
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- plugin configs (Packer)
+
+
+-- keybindings config
+vim.keymap.set('t','<ESC>','<C-\\><C-n>',{})    -- exit terminal mode with <ESC>
+
+
+
+-- plugin configs 
 local ensure_packer = function()
     local fn = vim.fn
     local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -71,7 +78,6 @@ return require('packer').startup(function(use)
         require('packer').sync()
     end
 end)
-
 
 
 
