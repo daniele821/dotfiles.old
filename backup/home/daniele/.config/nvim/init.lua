@@ -37,11 +37,13 @@ return require('packer').startup(function(use)
     --lualine 
     use {
         'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+        -- probably the next line would be necessary without a nerd font? idk
+        -- requires = { 'nvim-tree/nvim-web-devicons', opt = true } 
     }
     require('lualine').setup()
 
     -- gitsigns
+    -- TODO (maybe): add keybindings to move to previous/next git change
     use 'lewis6991/gitsigns.nvim'
     require('gitsigns').setup()
 
@@ -50,12 +52,10 @@ return require('packer').startup(function(use)
     require('Comment').setup()
 
     -- tree-sitter
-    use({
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        after = "nvim-treesitter",
-        requires = "nvim-treesitter/nvim-treesitter",
+    use {
+        "nvim-treesitter/nvim-treesitter",
         build = ':TSUpdate',
-    })
+    } 
     require('nvim-treesitter.configs').setup {
         ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'toml', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
         auto_install = true,
