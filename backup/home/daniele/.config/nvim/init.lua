@@ -7,6 +7,7 @@ vim.opt.shiftwidth = 4
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.breakindent = true
 vim.opt.signcolumn = 'yes'
+vim.opt.showmode = false
 
 
 -- plugin configs (Packer)
@@ -39,8 +40,9 @@ return require('packer').startup(function(use)
     }
     require('lualine').setup()
 
-    -- nim-fugitive (git)
-    use 'tpope/vim-fugitive'
+    -- gitsigns
+    use 'lewis6991/gitsigns.nvim'
+    require('gitsigns').setup()
 
     -- packer bootstrap
     if packer_bootstrap then
