@@ -11,6 +11,10 @@ vim.opt.showmode = false
 vim.opt.scrolloff = 5
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.cmd [[ 
+    autocmd BufEnter * set formatoptions-=cro
+    autocmd BufEnter * setlocal formatoptions-=cro 
+]]
 
 
 
