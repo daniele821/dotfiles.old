@@ -8,7 +8,8 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.breakindent = true
 vim.opt.signcolumn = 'yes'
 vim.opt.showmode = false
-
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- plugin configs (Packer)
 local ensure_packer = function()
@@ -26,14 +27,14 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     -- insert new plugins here, separatedd by a newline (to allow easy movement with '{,}' vim shortcuts
 
-    -- one dark (colorscheme)
+    -- one dark 
     use 'navarasu/onedark.nvim'
     require('onedark').setup {
         style = 'dark',
     }
     require('onedark').load()
 
-    --lualine (status-line)
+    --lualine 
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
@@ -43,6 +44,27 @@ return require('packer').startup(function(use)
     -- gitsigns
     use 'lewis6991/gitsigns.nvim'
     require('gitsigns').setup()
+
+    -- comments
+    use 'numToStr/Comment.nvim'
+    require('Comment').setup()
+
+    -- tree-sitter
+    use({
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
+        requires = "nvim-treesitter/nvim-treesitter",
+        build = ':TSUpdate',
+    })
+    require('nvim-treesitter.configs').setup {
+        ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'toml', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+        auto_install = true,
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = {
+            enable = true,
+        },
+    }
 
     -- packer bootstrap
     if packer_bootstrap then
