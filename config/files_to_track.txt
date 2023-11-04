@@ -6,6 +6,7 @@
 .vimrc
 .ssh/config
 .config/starship.toml
+.config/nvim/init.lua
 
 # themes
 .local/share/themes/Dracula.zip
