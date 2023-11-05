@@ -142,8 +142,9 @@ vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, {})
 -- config tree-sitter
 vim.defer_fn(function()
     require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc',
-            'vim', 'bash' },
+        ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx',
+            'javascript', 'typescript', 'vimdoc', 'vim', 'bash', "markdown",
+            "java", "gitcommit" },
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
@@ -202,7 +203,13 @@ local servers = {
     -- pyright = {},
     -- tsserver = {},
     -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-    rust_analyzer = {},
+    rust_analyzer = {
+        ["rust-analyzer"] = {
+            check = {
+                command = "clippy",
+            },
+        },
+    },
     lua_ls = {
         Lua = {
             workspace = { checkThirdParty = false },
