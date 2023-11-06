@@ -1,4 +1,4 @@
-# variables 
+#################### variables #################### 
 set $mod Mod4
 set $alt Mod1
 set $ws1 1
@@ -11,21 +11,21 @@ set $ws7 7
 set $ws8 8
 set $ws9 9
 
-# inclusions
+#################### inclusions ####################
 include /etc/sway/config-vars.d/*
 include /etc/sway/config.d/*
 
-# input
+#################### input ####################
 input "type:keyboard" {
     xkb_layout it
 }
 
-# output
+#################### output #################### 
 output * {
     bg /home/daniele/.local/share/backgrounds/wp6427742.jpg fill
 }
 
-# bar
+#################### bar ####################
 bar {
     position top
     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
@@ -36,22 +36,29 @@ bar {
     }
 }
 
-# options
+#################### options ####################
 floating_modifier $mod normal
 workspace_auto_back_and_forth no
-focus_wrapping no
+focus_wrapping yes
 focus_on_window_activation smart
 mouse_warping output
 focus_follows_mouse no
+hide_edge_borders none
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 0
+gaps outer 0
 
-# startup commands
+#################### startup commands ####################
 # exec /usr/libexec/gsd-xsettings 
+exec killall gsd-rfkill && /usr/libexec/gsd-rfkill 
+exec ~/.personal/repos/other/autotiling/autotiling/main.py -l 2
 
-# keybindings launchers
+#################### keybindings launchers ####################
 bindsym $mod+Return exec gnome-terminal
-bindsym $mod+Shift+Return exec MOZ_ENABLE_WAYLAND=1 firefox
+bindsym $mod+Shift+Return exec firefox
 
-# keybindinds general
+#################### keybindinds general ####################
 bindsym $mod+q kill
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
@@ -59,8 +66,13 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+d exec dmenu_path | dmenu | xargs swaymsg exec --
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Escape exec swaylock --image '/home/daniele/.local/share/backgrounds/wp2081186.jpg' 
 
-# keybindings container
+#################### keybindings for fn keys ####################
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+
+#################### keybindings container ####################
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -69,8 +81,9 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+bindsym $mod+t layout toggle splitv splith tabbed
 
-# keybindings workspaces
+#################### keybindings workspaces ####################
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
@@ -100,3 +113,5 @@ bindsym $mod+$alt+8 move container to workspace number $ws8, workspace number $w
 bindsym $mod+$alt+9 move container to workspace number $ws9, workspace number $ws9
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+$alt+Right workspace next
+bindsym $mod+$alt+Left workspace prev
