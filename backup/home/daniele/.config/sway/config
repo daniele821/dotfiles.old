@@ -50,8 +50,8 @@ gaps inner 0
 gaps outer 0
 
 #################### startup commands ####################
-# exec /usr/libexec/gsd-xsettings 
-exec killall gsd-rfkill && /usr/libexec/gsd-rfkill 
+exec /usr/libexec/gsd-xsettings 
+exec /usr/libexec/gsd-rfkill 
 exec ~/.personal/repos/other/autotiling/autotiling/main.py -l 2
 
 #################### keybindings launchers ####################
