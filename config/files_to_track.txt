@@ -7,6 +7,7 @@
 .ssh/config
 .config/starship.toml
 .config/nvim/init.lua
+.config/sway/config
 
 # themes
 .local/share/themes/Dracula.zip
