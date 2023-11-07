@@ -27,3 +27,4 @@
 .local/share/backgrounds
 .config/autostart
 .personal/data/backups
+.local/share/rofi/themes
