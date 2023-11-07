@@ -10,6 +10,8 @@ set $ws6 6
 set $ws7 7
 set $ws8 8
 set $ws9 9
+set $ws_terminal '10: '
+set $ws_browser '11: '
 
 #################### inclusions ####################
 include /etc/sway/config-vars.d/*
@@ -122,3 +124,9 @@ bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 bindsym $mod+$alt+Right workspace next
 bindsym $mod+$alt+Left workspace prev
+bindsym $mod+$alt+Shift+Right move container to workspace next, workspace next
+bindsym $mod+$alt+Shift+Left move container to workspace prev, workspace prev
+
+#################### keybindings assigned workspaces ####################
+for_window [app_id="gnome-terminal-server"] move container to workspace number $ws_terminal, workspace $ws_terminal
+for_window [app_id="firefox"] move container to workspace number $ws_browser, workspace $ws_browser
