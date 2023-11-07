@@ -8,6 +8,7 @@
 .config/starship.toml
 .config/nvim/init.lua
 .config/sway/config
+.config/foot/foot.ini
 
 # themes
 .local/share/themes/Dracula.zip

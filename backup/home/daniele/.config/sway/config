@@ -14,8 +14,6 @@ set $ws_terminal '10: '
 set $ws_files '11: '
 set $ws_browser '12: '
 set $ws_vscode '13:󰘐 '
-set $ws_office '14: '
-set $ws_reader '15: '
 #################### inclusions ####################
 include /etc/sway/config-vars.d/*
 include /etc/sway/config.d/*
@@ -58,7 +56,7 @@ exec nm-applet
 
 #################### keybindings launchers ####################
 bindsym $mod+Return exec gnome-terminal
-bindsym $mod+Shift+Return exec MOZ_ENABLE_WAYLAND=1 firefox
+bindsym $mod+Shift+Return exec firefox
 
 #################### keybindinds general ####################
 bindsym $mod+q kill
@@ -131,15 +129,12 @@ bindsym $mod+$alt+Shift+Right move container to workspace next, workspace next
 bindsym $mod+$alt+Shift+Left  move container to workspace prev, workspace prev
 
 #################### keybindings assigned workspaces ####################
-bindsym $mod+t workspace number $ws_terminal
-bindsym $mod+b workspace number $ws_browser
-bindsym $mod+c workspace number $ws_vscode
-bindsym $mod+n workspace number $ws_files
-bindsym $mod+o workspace number $ws_office
-bindsym $mod+r workspace number $ws_reader
+bindsym $mod+t workspace number $ws_terminal, exec pgrep gnome-terminal || gnome-terminal
+bindsym $mod+b workspace number $ws_browser, exec pgrep firefox || firefox
+bindsym $mod+c workspace number $ws_vscode, exec pgrep code || code
+bindsym $mod+n workspace number $ws_files, exec pgrep nautilus || nautilus
 for_window [app_id="gnome-terminal-server"] move container to workspace number $ws_terminal, workspace $ws_terminal
 for_window [app_id="org.gnome.Nautilus"]    move container to workspace number $ws_files,    workspace $ws_files
+for_window [class="firefox"]                move container to workspace number $ws_browser,  workspace $ws_browser
 for_window [app_id="firefox"]               move container to workspace number $ws_browser,  workspace $ws_browser
 for_window [class="Code"]                   move container to workspace number $ws_vscode,   workspace $ws_vscode
-for_window [app_id=libreoffice*]            move container to workspace number $ws_office,   workspace $ws_office
-for_window [app_id="evince"]                move container to workspace number $ws_reader,   workspace $ws_reader
