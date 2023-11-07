@@ -23,7 +23,7 @@ CODE_EXTENSIONS=(
 mkdir -p ~/.personal/{repos/{mine,unibo,other,test},data}
 
 # restore backup
-"$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -fb
+"$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -by
 
 # install vscode extension
 for ext in "${CODE_EXTENSIONS[@]}"; do
