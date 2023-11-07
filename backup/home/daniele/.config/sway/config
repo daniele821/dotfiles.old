@@ -63,7 +63,7 @@ exec ~/.personal/repos/other/autotiling/autotiling/main.py -l 2
 
 #################### keybindings launchers ####################
 bindsym $mod+Return exec gnome-terminal
-bindsym $mod+Shift+Return exec firefox
+bindsym $mod+Shift+Return exec MOZ_ENABLE_WAYLAND=1 firefox
 
 #################### keybindinds general ####################
 bindsym $mod+q kill
