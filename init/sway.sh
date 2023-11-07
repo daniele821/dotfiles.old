@@ -1,7 +1,7 @@
 #!/bin/bash
 
-while ! sudo sway sway-lock wl-clipboard python3-pip brightnessctl playerctl rofi grim slurp -y; do
-    color "1;31" "installation of utilities failed!"
+while ! sudo apt install sway swaylock wl-clipboard python3-pip brightnessctl playerctl rofi grim slurp -y; do
+    echo -e "\e[1;31minstallation of utilities failed!\e[m"
 done
 
 # necessary to change brightness (without sudo)
