@@ -12,6 +12,7 @@ set $ws8 8
 set $ws9 9
 set $ws_terminal '10: '
 set $ws_browser '11: '
+set $ws_vscode '12:󰘐 '
 
 #################### inclusions ####################
 include /etc/sway/config-vars.d/*
@@ -90,7 +91,6 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-bindsym $mod+t layout toggle splitv splith tabbed
 
 #################### keybindings workspaces ####################
 bindsym $mod+1 workspace number $ws1
@@ -102,6 +102,9 @@ bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
+bindsym $mod+t workspace number $ws_terminal
+bindsym $mod+b workspace number $ws_browser
+bindsym $mod+c workspace number $ws_vscode
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
@@ -130,3 +133,4 @@ bindsym $mod+$alt+Shift+Left move container to workspace prev, workspace prev
 #################### keybindings assigned workspaces ####################
 for_window [app_id="gnome-terminal-server"] move container to workspace number $ws_terminal, workspace $ws_terminal
 for_window [app_id="firefox"] move container to workspace number $ws_browser, workspace $ws_browser
+for_window [class="Code"] move container to workspace number $ws_vscode, workspace $ws_vscode
