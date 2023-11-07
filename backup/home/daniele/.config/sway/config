@@ -29,18 +29,6 @@ output * {
     bg /home/daniele/.local/share/backgrounds/wp6427742.jpg fill
 }
 
-#################### bar ####################
-bar {
-    position top
-    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
-    strip_workspace_numbers yes
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-}
-
 #################### options ####################
 floating_modifier $mod normal
 workspace_auto_back_and_forth no
@@ -60,6 +48,8 @@ gaps outer 0
 #################### startup commands ####################
 exec /usr/libexec/gsd-xsettings 
 exec ~/.personal/repos/other/autotiling/autotiling/main.py -l 2
+exec waybar
+exec nm-applet
 
 #################### keybindings launchers ####################
 bindsym $mod+Return exec gnome-terminal

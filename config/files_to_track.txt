@@ -28,3 +28,4 @@
 .config/autostart
 .personal/data/backups
 .local/share/rofi/themes
+.config/waybar
