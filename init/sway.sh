@@ -16,7 +16,4 @@ git clone https://github.com/nwg-piotr/autotiling.git
 chmod +x ./autotiling/autotiling/main.py
 
 # install rofi themes
-git clone https://github.com/lr-tech/rofi-themes-collection.git
-mkdir -p ~/.local/share/rofi/themes/
-cp rofi-themes-collection/themes/* ~/.local/share/rofi/themes/
 rofi-theme-selector
