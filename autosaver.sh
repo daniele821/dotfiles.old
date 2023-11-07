@@ -35,7 +35,7 @@ INIT_FILES_TO_EXECUTE=(
     "${DIRS[3]}/git-repos.sh"
     "${DIRS[3]}/optional-init.sh"
     "${DIRS[3]}/colors.sh"
-    "${DIRS[3]}/swap.sh"
+    "${DIRS[3]}/sway.sh"
 )
 
 # (1.6) flags

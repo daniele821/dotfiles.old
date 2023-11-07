@@ -19,6 +19,10 @@ include /etc/sway/config.d/*
 input "type:keyboard" {
     xkb_layout it
 }
+seat * {
+hide_cursor 3000
+hide_cursor when-typing enable
+}
 
 #################### output #################### 
 output * {
@@ -42,9 +46,12 @@ floating_modifier $mod normal
 workspace_auto_back_and_forth no
 focus_wrapping yes
 focus_on_window_activation smart
-mouse_warping output
+popup_during_fullscreen smart
+mouse_warping none
 focus_follows_mouse no
 hide_edge_borders none
+smart_borders no
+smart_gaps on
 default_border pixel 2
 default_floating_border pixel 2
 gaps inner 5
@@ -66,7 +73,11 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+d exec rofi -show
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+r exec swaynag -t warning -m 'Do you really want to reboot?' -B 'Yes, reboot' 'reboot'
+bindsym $mod+Shift+p exec swaynag -t warning -m 'Do you really want to poweroff?' -B 'Yes, poweroff' 'poweroff'
 bindsym $mod+Escape exec swaylock --image '/home/daniele/.local/share/backgrounds/wp2081186.jpg' 
+bindsym Print exec grim -g "$(slurp)"
+bindsym Print+Shift exec grim
 
 #################### keybindings for fn keys ####################
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
