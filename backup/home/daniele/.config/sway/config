@@ -29,6 +29,7 @@ output * {
 bar {
     position top
     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+    strip_workspace_numbers yes
     colors {
         statusline #ffffff
         background #323232
@@ -46,12 +47,11 @@ focus_follows_mouse no
 hide_edge_borders none
 default_border pixel 2
 default_floating_border pixel 2
-gaps inner 0
+gaps inner 5
 gaps outer 0
 
 #################### startup commands ####################
 exec /usr/libexec/gsd-xsettings 
-exec /usr/libexec/gsd-rfkill 
 exec ~/.personal/repos/other/autotiling/autotiling/main.py -l 2
 
 #################### keybindings launchers ####################
@@ -63,7 +63,7 @@ bindsym $mod+q kill
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
-bindsym $mod+d exec dmenu_path | dmenu | xargs swaymsg exec --
+bindsym $mod+d exec rofi -show
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'
 bindsym $mod+Escape exec swaylock --image '/home/daniele/.local/share/backgrounds/wp2081186.jpg' 
@@ -71,6 +71,12 @@ bindsym $mod+Escape exec swaylock --image '/home/daniele/.local/share/background
 #################### keybindings for fn keys ####################
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-mute @DEFAULT_SINK@ 0 && pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-mute @DEFAULT_SINK@ 0 && pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 #################### keybindings container ####################
 bindsym $mod+Left focus left
