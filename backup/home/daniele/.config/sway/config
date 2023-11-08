@@ -22,7 +22,7 @@ hide_cursor 3000
 hide_cursor when-typing enable
 }
 output * {
-    bg /home/daniele/.local/share/backgrounds/wp6427742.jpg fill
+    bg '/home/daniele/.local/share/backgrounds/wp5933772.jpg' fill
 }
 
 #################### options ####################
@@ -36,10 +36,10 @@ focus_follows_mouse no
 hide_edge_borders none
 smart_borders no
 smart_gaps on
-default_border pixel 2
-default_floating_border pixel 2
+default_border pixel 3
+default_floating_border pixel 3
 gaps inner 5
-gaps outer 0
+gaps outer 0 
 
 #################### startup commands ####################
 exec /usr/libexec/gsd-xsettings 
@@ -135,3 +135,11 @@ for_window [class="firefox"]                move container to workspace number $
 for_window [class="Code"]                   move container to workspace number $ws_vscode,   workspace $ws_vscode
 for_window [app_id=libreoffice*]            move container to workspace number $ws_office,   workspace $ws_office
 for_window [app_id="evince"]                move container to workspace number $ws_reader,   workspace $ws_reader
+
+#################### container colors ####################
+client.focused          #4c7899 #285577 #ffffff #285577   #285577
+client.focused_inactive #333333 #222222 #888888 #292d2e   #222222
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.background       #ffffff
