@@ -187,6 +187,12 @@ local on_attach = function(_, bufnr)
     nmap('<leader>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end)
+    vim.api.nvim_buf_create_user_command(bufnr, 'HintsEnable', function(_)
+        vim.lsp.inlay_hint(bufnr, true)
+    end, {})
+    vim.api.nvim_buf_create_user_command(bufnr, 'HintsDisable', function(_)
+        vim.lsp.inlay_hint(bufnr, false)
+    end, {})
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
         vim.lsp.buf.format()
     end, {})
@@ -208,7 +214,7 @@ local servers = {
     },
     lua_ls = {
         Lua = {
-            workspace = { checkThirdParty = false },
+            workspace = { checkThirdParty = "Disable" },
             telemetry = { enable = false },
         },
     },
