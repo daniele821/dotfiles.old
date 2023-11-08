@@ -10,7 +10,6 @@ set $ws6 6
 set $ws7 7
 set $ws8 8
 set $ws9 9
-include /etc/sway/config-vars.d/*
 include /etc/sway/config.d/*
 
 #################### input & output ####################
@@ -48,8 +47,6 @@ exec waybar
 exec nm-applet
 
 #################### keybindinds general ####################
-bindsym $mod+Return exec gnome-terminal
-bindsym $mod+Shift+Return exec MOZ_ENABLE_WAYLAND=1 firefox
 bindsym $mod+q kill
 bindsym $mod+Shift+q focus parent, kill
 bindsym $mod+f fullscreen
@@ -126,9 +123,11 @@ set $ws_browser '12: '
 set $ws_vscode '13:󰘐 '
 set $ws_office '14: '
 set $ws_reader '15: '
-bindsym $mod+t workspace number $ws_terminal, exec pgrep gnome-terminal || gnome-terminal
-bindsym $mod+b workspace number $ws_browser, exec pgrep firefox || firefox
-for_window [app_id="gnome-terminal-server"] move container to workspace number $ws_terminal, workspace $ws_terminal
+bindsym $mod+t workspace number $ws_terminal, exec pgrep foot || foot
+bindsym $mod+b workspace number $ws_browser, exec pgrep firefox || MOZ_ENABLE_WAYLAND=1 firefox
+bindsym $mod+Return exec foot
+bindsym $mod+Shift+Return exec MOZ_ENABLE_WAYLAND=1 firefox
+for_window [app_id="foot"] move container to workspace number $ws_terminal, workspace $ws_terminal
 for_window [app_id="org.gnome.Nautilus"]    move container to workspace number $ws_files,    workspace $ws_files
 for_window [app_id="firefox"]               move container to workspace number $ws_browser,  workspace $ws_browser
 for_window [class="firefox"]                move container to workspace number $ws_browser,  workspace $ws_browser
