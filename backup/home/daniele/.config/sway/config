@@ -49,7 +49,8 @@ exec nm-applet
 
 #################### keybindinds general ####################
 bindsym $mod+q kill
-bindsym $mod+Shift+q focus parent, kill
+bindsym $mod+Shift+q focus parent; kill
+bindsym $mod+Alt+q [workspace=__focused__] kill; workspace next
 bindsym $mod+f fullscreen
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
@@ -101,40 +102,44 @@ bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+$alt+1 move container to workspace number $ws1, workspace number $ws1
-bindsym $mod+$alt+2 move container to workspace number $ws2, workspace number $ws2
-bindsym $mod+$alt+3 move container to workspace number $ws3, workspace number $ws3
-bindsym $mod+$alt+4 move container to workspace number $ws4, workspace number $ws4
-bindsym $mod+$alt+5 move container to workspace number $ws5, workspace number $ws5
-bindsym $mod+$alt+6 move container to workspace number $ws6, workspace number $ws6
-bindsym $mod+$alt+7 move container to workspace number $ws7, workspace number $ws7
-bindsym $mod+$alt+8 move container to workspace number $ws8, workspace number $ws8
-bindsym $mod+$alt+9 move container to workspace number $ws9, workspace number $ws9
+bindsym $mod+$alt+1 move container to workspace number $ws1; workspace number $ws1
+bindsym $mod+$alt+2 move container to workspace number $ws2; workspace number $ws2
+bindsym $mod+$alt+3 move container to workspace number $ws3; workspace number $ws3
+bindsym $mod+$alt+4 move container to workspace number $ws4; workspace number $ws4
+bindsym $mod+$alt+5 move container to workspace number $ws5; workspace number $ws5
+bindsym $mod+$alt+6 move container to workspace number $ws6; workspace number $ws6
+bindsym $mod+$alt+7 move container to workspace number $ws7; workspace number $ws7
+bindsym $mod+$alt+8 move container to workspace number $ws8; workspace number $ws8
+bindsym $mod+$alt+9 move container to workspace number $ws9; workspace number $ws9
 bindsym $mod+Tab        workspace next
 bindsym $mod+Shift+Tab  workspace prev
 bindsym $mod+$alt+Right workspace next
 bindsym $mod+$alt+Left  workspace prev
-bindsym $mod+$alt+Shift+Right move container to workspace next, workspace next
-bindsym $mod+$alt+Shift+Left  move container to workspace prev, workspace prev
+bindsym $mod+$alt+Shift+Right move container to workspace next; workspace next
+bindsym $mod+$alt+Shift+Left  move container to workspace prev; workspace prev
 
 #################### keybindings assigned workspaces ####################
 set $ws_terminal '10: '
-set $ws_files '11: '
-set $ws_browser '12: '
+set $ws_browser '11: '
+set $ws_files '12: '
 set $ws_vscode '13:󰘐 '
 set $ws_office '14: '
 set $ws_reader '15: '
-bindsym $mod+t workspace number $ws_terminal, exec pgrep foot || foot
-bindsym $mod+b workspace number $ws_browser, exec pgrep firefox || MOZ_ENABLE_WAYLAND=1 firefox
+bindsym $mod+t workspace number $ws_terminal; exec pgrep foot || foot
+bindsym $mod+b workspace number $ws_browser; exec pgrep firefox || MOZ_ENABLE_WAYLAND=1 firefox
+bindsym $mod+n workspace number $ws_files
+bindsym $mod+c workspace number $ws_vscode
+bindsym $mod+e workspace number $ws_reader
+bindsym $mod+l workspace number $ws_office
 bindsym $mod+Return exec foot
 bindsym $mod+Shift+Return exec MOZ_ENABLE_WAYLAND=1 firefox
-for_window [app_id="foot"] move container to workspace number $ws_terminal, workspace $ws_terminal
-for_window [app_id="org.gnome.Nautilus"]    move container to workspace number $ws_files,    workspace $ws_files
-for_window [app_id="firefox"]               move container to workspace number $ws_browser,  workspace $ws_browser
-for_window [class="firefox"]                move container to workspace number $ws_browser,  workspace $ws_browser
-for_window [class="Code"]                   move container to workspace number $ws_vscode,   workspace $ws_vscode
-for_window [app_id=libreoffice*]            move container to workspace number $ws_office,   workspace $ws_office
-for_window [app_id="evince"]                move container to workspace number $ws_reader,   workspace $ws_reader
+for_window [app_id="foot"] move container to workspace number $ws_terminal; workspace $ws_terminal
+for_window [app_id="org.gnome.Nautilus"]    move container to workspace number $ws_files;    workspace $ws_files
+for_window [app_id="firefox"]               move container to workspace number $ws_browser;  workspace $ws_browser
+for_window [class="firefox"]                move container to workspace number $ws_browser;  workspace $ws_browser
+for_window [class="Code"]                   move container to workspace number $ws_vscode;   workspace $ws_vscode
+for_window [app_id=libreoffice*]            move container to workspace number $ws_office;   workspace $ws_office
+for_window [app_id="evince"]                move container to workspace number $ws_reader;   workspace $ws_reader
 
 #################### container colors ####################
 client.focused          #4c7899 #285577 #ffffff #285577   #285577
