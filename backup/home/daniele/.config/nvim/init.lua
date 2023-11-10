@@ -14,10 +14,16 @@ vim.opt.completeopt = 'menuone,noselect'
 vim.opt.termguicolors = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+
+-- dirty fixes
 vim.cmd [[
     autocmd BufEnter * set formatoptions-=cro
     autocmd BufEnter * setlocal formatoptions-=cro
 ]]
+if os.getenv('TERM') == 'foot' then
+    vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:block"
+end
 
 
 -- keybindings config
