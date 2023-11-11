@@ -59,13 +59,22 @@ require('lazy').setup {
     },
 
     -- git-signs
-    'lewis6991/gitsigns.nvim',
+    {
+        'lewis6991/gitsigns.nvim',
+        opts = {},
+    },
 
     -- status-line
-    'nvim-lualine/lualine.nvim',
+    {
+        'nvim-lualine/lualine.nvim',
+        opts = {},
+    },
 
     -- comments
-    'numToStr/Comment.nvim',
+    {
+        'numToStr/Comment.nvim',
+        opts = {},
+    },
 
     -- telescope
     {
