@@ -59,25 +59,13 @@ require('lazy').setup {
     },
 
     -- git-signs
-    {
-        'lewis6991/gitsigns.nvim',
-        opts = {},
-        lazy = false,
-    },
+    'lewis6991/gitsigns.nvim',
 
     -- status-line
-    {
-        'nvim-lualine/lualine.nvim',
-        opts = {},
-        lazy = false,
-    },
+    'nvim-lualine/lualine.nvim',
 
     -- comments
-    {
-        'numToStr/Comment.nvim',
-        opts = {},
-        lazy = false,
-    },
+    'numToStr/Comment.nvim',
 
     -- telescope
     {
@@ -267,11 +255,6 @@ end
 require('mason').setup()
 require('mason-lspconfig').setup()
 local servers = {
-    -- clangd = {},
-    -- gopls = {},
-    -- pyright = {},
-    -- tsserver = {},
-    -- html = { filetypes = { 'html', 'twig', 'hbs'} },
     rust_analyzer = {
         ["rust-analyzer"] = {
             check = {
@@ -320,28 +303,10 @@ cmp.setup {
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete {},
-        ['<C-CR>'] = cmp.mapping.confirm {
+        ['<C-Tab>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         },
-        ['<C-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_locally_jumpable() then
-                luasnip.expand_or_jump()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-        ['<C-S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.locally_jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
     },
     sources = {
         { name = 'nvim_lsp' },
