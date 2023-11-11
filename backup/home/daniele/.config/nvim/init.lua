@@ -307,6 +307,10 @@ cmp.setup {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         },
+        ['<C-CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
     },
     sources = {
         { name = 'nvim_lsp' },
