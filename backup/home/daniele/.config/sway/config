@@ -133,6 +133,7 @@ bindsym $mod+e workspace number $ws_reader
 bindsym $mod+l workspace number $ws_office
 bindsym $mod+Return exec foot
 bindsym $mod+Shift+Return exec MOZ_ENABLE_WAYLAND=1 firefox
+bindsym $mod+Shift+n exec nautilus
 for_window [app_id="foot"] move container to workspace number $ws_terminal; workspace $ws_terminal
 for_window [app_id="org.gnome.Nautilus"]    move container to workspace number $ws_files;    workspace $ws_files
 for_window [app_id="firefox"]               move container to workspace number $ws_browser;  workspace $ws_browser
