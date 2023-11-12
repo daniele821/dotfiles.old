@@ -20,7 +20,7 @@ CODE_EXTENSIONS=(
 )
 
 # create directory structure
-mkdir -p ~/.personal/{repos/{mine,unibo,other,test},data}
+mkdir -p ~/.personal/{repos/{mine,unibo,other},data}
 
 # restore backup
 "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")/autosaver.sh" -by
