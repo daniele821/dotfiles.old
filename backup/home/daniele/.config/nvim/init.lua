@@ -14,10 +14,16 @@ vim.opt.completeopt = 'menuone,noselect'
 vim.opt.termguicolors = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+
+
+-- dirty fixes
 vim.cmd [[
     autocmd BufEnter * set formatoptions-=cro
     autocmd BufEnter * setlocal formatoptions-=cro
 ]]
+if os.getenv('TERM') == 'foot' then
+    vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:block"
+end
 
 
 -- keybindings config
@@ -56,21 +62,18 @@ require('lazy').setup {
     {
         'lewis6991/gitsigns.nvim',
         opts = {},
-        lazy = false,
     },
 
     -- status-line
     {
         'nvim-lualine/lualine.nvim',
         opts = {},
-        lazy = false,
     },
 
     -- comments
     {
         'numToStr/Comment.nvim',
         opts = {},
-        lazy = false,
     },
 
     -- telescope
@@ -89,10 +92,6 @@ require('lazy').setup {
         'nvim-treesitter/nvim-treesitter',
         lazy = false,
         build = ':TSUpdate',
-        dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
-            lazy = false,
-        },
     },
 
     -- lsp configuration
@@ -103,11 +102,72 @@ require('lazy').setup {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
             {
+                'simrat39/rust-tools.nvim',
+                opts = {},
+            },
+            {
                 'j-hui/fidget.nvim',
                 tag = 'legacy',
                 opts = {}
             },
         },
+        config = function()
+            local format_is_enabled = true
+            vim.api.nvim_create_user_command('FormatOnSaveEnable', function()
+                format_is_enabled = true
+            end, {})
+            vim.api.nvim_create_user_command('FormatOnSaveDisable', function()
+                format_is_enabled = false
+            end, {})
+            -- Create an augroup that is used for managing our formatting autocmds.
+            --      We need one augroup per client to make sure that multiple clients
+            --      can attach to the same buffer without interfering with each other.
+            local _augroups = {}
+            local get_augroup = function(client)
+                if not _augroups[client.id] then
+                    local group_name = 'kickstart-lsp-format-' .. client.name
+                    local id = vim.api.nvim_create_augroup(group_name, { clear = true })
+                    _augroups[client.id] = id
+                end
+                return _augroups[client.id]
+            end
+            -- Whenever an LSP attaches to a buffer, we will run this function.
+            -- See `:help LspAttach` for more information about this autocmd event.
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup('kickstart-lsp-attach-format', { clear = true }),
+                -- This is where we attach the autoformatting for reasonable clients
+                callback = function(args)
+                    local client_id = args.data.client_id
+                    local client = vim.lsp.get_client_by_id(client_id)
+                    local bufnr = args.buf
+                    -- Only attach to clients that support document formatting
+                    if client == nil or not client.server_capabilities.documentFormattingProvider then
+                        return
+                    end
+                    -- disable autoformatting for following lsp servers
+                    if (client.name == 'lua_ls') then
+                        format_is_enabled = false
+                    end
+                    -- Create an autocmd that will run *before* we save the buffer.
+                    --  Run the formatting command for the LSP that has just attached.
+                    vim.api.nvim_create_autocmd('BufWritePre', {
+                        group = get_augroup(client),
+                        buffer = bufnr,
+                        callback = function()
+                            if not format_is_enabled then
+                                return
+                            end
+                            vim.lsp.buf.format {
+                                async = false,
+                                filter = function(c)
+                                    return c.id == client.id
+                                end,
+                            }
+                        end,
+                    })
+                end,
+            })
+        end
     },
 
     -- autocompletion
@@ -191,6 +251,12 @@ local on_attach = function(_, bufnr)
     nmap('<leader>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end)
+    vim.api.nvim_buf_create_user_command(bufnr, 'HintsEnable', function(_)
+        vim.lsp.inlay_hint(bufnr, true)
+    end, {})
+    vim.api.nvim_buf_create_user_command(bufnr, 'HintsDisable', function(_)
+        vim.lsp.inlay_hint(bufnr, false)
+    end, {})
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
         vim.lsp.buf.format()
     end, {})
@@ -198,11 +264,6 @@ end
 require('mason').setup()
 require('mason-lspconfig').setup()
 local servers = {
-    -- clangd = {},
-    -- gopls = {},
-    -- pyright = {},
-    -- tsserver = {},
-    -- html = { filetypes = { 'html', 'twig', 'hbs'} },
     rust_analyzer = {
         ["rust-analyzer"] = {
             check = {
@@ -212,7 +273,7 @@ local servers = {
     },
     lua_ls = {
         Lua = {
-            workspace = { checkThirdParty = false },
+            workspace = { checkThirdParty = "Disable" },
             telemetry = { enable = false },
         },
     },
@@ -251,28 +312,14 @@ cmp.setup {
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = cmp.mapping.confirm {
+        ['<C-Tab>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
         },
-        ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_locally_jumpable() then
-                luasnip.expand_or_jump()
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.locally_jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { 'i', 's' }),
+        ['<C-CR>'] = cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
+        },
     },
     sources = {
         { name = 'nvim_lsp' },
