@@ -107,7 +107,6 @@ require('lazy').setup {
             },
             {
                 'j-hui/fidget.nvim',
-                tag = 'legacy',
                 opts = {}
             },
         },
