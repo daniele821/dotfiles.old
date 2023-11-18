@@ -6,7 +6,7 @@
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
-    "vscode-neovim.mouseSelectionDebounceTime": 0,
+    "vscode-neovim.mouseSelectionDebounceTime": 50,
     "vscode-neovim.neovimInitVimPaths.linux": "~/.personal/data/backups/vscode/neovim/init.vim",
     "files.autoSave": "afterDelay",
     "window.zoomLevel": 2,
