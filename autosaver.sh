@@ -178,7 +178,7 @@ function save_files() {
     done
 }
 
-# (2.13) store action parsed from args. $1: action letter
+# (2.11) store action parsed from args. $1: action letter
 function store_action() {
     if ! [[ "${ALL_ACTION}" == *"${1}"* ]]; then
         ALL_ACTION+="${1}"
