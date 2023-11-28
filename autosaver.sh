@@ -152,37 +152,76 @@ function save_file() {
     BACKUP="${DIRS[0]}${1}"
     if ! [[ -f "${FILE}" ]] && [[ -f "${BACKUP}" ]]; then
         color "1;36" "${FILE}\n"
-        [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "original" && color "" " file is missing!\n\n"
+        [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "original" && color "" " file is missing!\n"
         [[ "${ACTION}" == "s" ]] && ask_user "Do you want to \e[1;33mremove\e[m backup file" && rm "${BACKUP}"
         [[ "${ACTION}" == "b" ]] && ask_user "Do you want to \e[1;33mcreate\e[m original file" && copy "${BACKUP}" "${FILE}"
+        conditional_newline
     elif [[ -f "${FILE}" ]] && ! [[ -f "${BACKUP}" ]]; then
         color "1;36" "${FILE}\n"
-        [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "backup" && color "" " file is missing!\n\n"
+        [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "backup" && color "" " file is missing!\n"
         [[ "${ACTION}" == "s" ]] && ask_user "Do you want to \e[1;33mcreate\e[m backup file" && copy "${FILE}" "${BACKUP}"
         [[ "${ACTION}" == "b" && "${ALLOW_DNG}" == "y" ]] && ask_user "Do you want to \e[1;33mremove\e[m original file [DANGEROUS]" && rm "${FILE}"
+        conditional_newline
     elif ! diff -q "${FILE}" "${BACKUP}" &>/dev/null; then
         color "1;36" "${FILE}\n"
         if [[ "${SHOW_DIFF}" == "y" ]]; then
             [[ "${ACTION}" == "b" ]] && diff --color "${FILE}" "${BACKUP}"
             [[ "${ACTION}" == "b" ]] || diff --color "${BACKUP}" "${FILE}"
-            echo
         fi
         [[ "${ACTION}" == "s" ]] && ask_user "Do you want to \e[1;33mupdate\e[m backup file" && copy "${FILE}" "${BACKUP}"
         [[ "${ACTION}" == "b" ]] && ask_user "Do you want to \e[1;33mupdate\e[m original file" && copy "${BACKUP}" "${FILE}"
+        conditional_newline
     fi
 }
 
-# (2.10) save all files
+# (2.10) remove untracked file. $1: backup file actual full path
+function remove_untracked_file() {
+    FILE="${1}"
+    BACKUP="${DIRS[0]}${1}"
+    color "1;31" "[UNTRACKED]: " && color "1;36" "${FILE}\n"
+    [[ "${SHOW_DIFF}" == "y" ]] && color "1;35" "untracked" && echo -e " file!"
+    [[ "${ACTION}" == [sb] ]] && ask_user "Do you want to \e[1;33mremove\e[m \e[1;31muntracked\e[m file" && rm "${BACKUP}"
+    conditional_newline
+}
+
+# (2.11) conditional new_line
+function conditional_newline() {
+    if [[ "${SHOW_DIFF}" == "y" || "${ACTION}" == [sb] ]]; then
+        echo
+    fi
+
+}
+
+# (2.12) save all files
 function save_files() {
     read_files "${CONFIG_FILES[0]}" | while read -r file; do
         save_file "${file}"
     done
     if [[ "${UNTRACKED}" == "y" ]]; then
-        echo UNTRACKED_IS_WIP;
-    fi;
+        TMP_BUFFER="$(mktemp)"
+        TMP_BACKUP_DIR="$(mktemp)"
+        TMP_TRACKED="$(mktemp)"
+        if ! cd "${DIRS[0]}" &>/dev/null; then
+            error_type 2
+            echo "backup directory doesn't exist"
+            exit 1
+        fi
+        if ! cd "./home/${USER}" &>/dev/null; then
+            error_type 2
+            echo "user home directory inside backup directory doesn't exist"
+            exit 1
+        fi
+        find . -type f | cut -c 3- >"${TMP_BUFFER}"
+        read_files "${TMP_BUFFER}" >"${TMP_BACKUP_DIR}"
+        read_files "${CONFIG_FILES[0]}" >"${TMP_TRACKED}"
+        grep -xvFf "${TMP_TRACKED}" "${TMP_BACKUP_DIR}" | while read -r file; do
+            remove_untracked_file "${file}"
+        done
+        rm "${TMP_BACKUP_DIR}" "${TMP_TRACKED}" "${TMP_BUFFER}"
+    fi
 }
 
-# (2.11) store action parsed from args. $1: action letter
+# (2.13) store action parsed from args. $1: action letter
 function store_action() {
     if ! [[ "${ALL_ACTION}" == *"${1}"* ]]; then
         ALL_ACTION+="${1}"
