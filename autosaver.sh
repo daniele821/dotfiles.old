@@ -42,6 +42,7 @@ ON_BRANCH="n" # n / y
 FORCE_YES="n" # n / y
 SHOW_DIFF="n" # n / y
 ALLOW_DNG="n" # n / y
+UNTRACKED="n" # n / y
 ACTION=""     #   / b / c / e / i / r / s
 ALL_ACTION="" # [ACTION][ACTION]...
 
@@ -176,6 +177,9 @@ function save_files() {
     read_files "${CONFIG_FILES[0]}" | while read -r file; do
         save_file "${file}"
     done
+    if [[ "${UNTRACKED}" == "y" ]]; then
+        echo UNTRACKED_IS_WIP;
+    fi;
 }
 
 # (2.11) store action parsed from args. $1: action letter
@@ -199,15 +203,16 @@ FLAG OPTIONS:
     -d      show diffs
     -f      force allow dangerous operations
     -y      try to automatically answer yes to all interactions
+    -u      check also for untracked files present in backup directory
 
 ACTION OPTIONS:
-    -b      restore backup into filesystem      [flags: -d, -f, -y]
+    -b      restore backup into filesystem      [flags: -d, -f, -u, -y]
     -c      commit all changes                  [flags: -d, -y]
     -e      edit all config files               [flags: -y]
     -h      help                           
     -i      run initialization scripts          [flags: -y]
     -r      remove all directories              [flags: -y]
-    -s      save files from filesystem          [flags: -d, -y]
+    -s      save files from filesystem          [flags: -d, -u, -y]
     "
 }
 
@@ -294,7 +299,7 @@ if [[ "${ON_BRANCH}" == "y" ]]; then
 fi
 
 # (4.3) getopt
-while getopts ':bcdefhirsy' OPTION; do
+while getopts ':bcdefhirsuy' OPTION; do
     case "${OPTION}" in
     b)
         store_action "b"
@@ -323,6 +328,9 @@ while getopts ':bcdefhirsy' OPTION; do
         ;;
     s)
         store_action "s"
+        ;;
+    u)
+        UNTRACKED="y"
         ;;
     y)
         FORCE_YES="y"
