@@ -136,7 +136,7 @@ function read_files() {
                 done
             fi
         fi
-    done <"${CONFIG_FILES[0]}" | sort -u
+    done <"${1}" | sort -u
 }
 
 # (2.8) copy file into a destination and create directories if necessary. $1: src, $:2 dst
@@ -173,7 +173,7 @@ function save_file() {
 
 # (2.10) save all files
 function save_files() {
-    read_files | while read -r file; do
+    read_files "${CONFIG_FILES[0]}" | while read -r file; do
         save_file "${file}"
     done
 }
